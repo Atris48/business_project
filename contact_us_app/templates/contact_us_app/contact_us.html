@@ -1,0 +1,145 @@
+{% extends 'main_base.html' %}
+{% load static %}
+
+{% block body %}
+
+    <body data-spy="scroll" data-target="#scrollspy" data-offset="1">
+
+    <div class="secondary-pages homepage-03">
+
+        <!--  Home Start  -->
+        <section id="home" class="page-header py-6 breadcrumbs">
+            <div class="home-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--  Home End  -->
+
+        <!--  Contact Start  -->
+        <section class="contact-01 contact-03 py-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="title-box">
+                            <h2 class="main-title">تماس با ما</h2>
+                            <p class="sub-title">برای هر نوع اطلاعات تماس بگیرید</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-4">
+                        <div class="row">
+                            <!--  Item 01 -->
+                            <div class="col-lg-12 boxes">
+                                <div class="info-box">
+                                    <div class="item-icon">
+                                        <i class="lni lni-map-marker"></i>
+                                    </div>
+                                    <div class="item-text">
+                                        <h5>دفتر کار</h5>
+                                        <p class="mb-0">ایران، فارس ، شیراز ، ملاصدرا ، کوچه 2</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  Item 02 -->
+                            <div class="col-lg-12 boxes">
+                                <div class="info-box">
+                                    <div class="item-icon">
+                                        <i class="lni lni-phone"></i>
+                                    </div>
+                                    <div class="item-text">
+                                        <h5>شماره تماس</h5>
+                                        <p class="mb-0">09012345678</p>
+                                        <p class="mb-0">09012345678</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <!--  Item 03 -->
+                            <div class="col-lg-12 boxes">
+                                <div class="info-box">
+                                    <div class="item-icon">
+                                        <i class="lni lni-envelope"></i>
+                                    </div>
+                                    <div class="item-text">
+                                        <h5>ایمیل ما</h5>
+                                        <p class="mb-0">Support@example.com</p>
+                                        <p class="mb-0">Info@example.com</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-8">
+                        <div class="contact-box">
+                            <div class="contact-form">
+                                <form id="contactForm">
+                                    <div class="row">
+                                        <div class="col-lg-6 form-item">
+                                            <div class="form-group">
+                                                <input name="name" id="name" type="text" class="form-control"
+                                                       placeholder="نام*" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 form-item">
+                                            <div class="form-group">
+                                                <input name="family" id="family" type="text" class="form-control"
+                                                       placeholder="نام خانوادگی*" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 form-item">
+                                            <div class="form-group">
+                                                <input name="email" id="email" type="email" class="form-control"
+                                                       placeholder="ایمیل*" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 form-item">
+                                            <div class="form-group">
+                                                <input name="subject" id="subject" type="tel" class="form-control"
+                                                       placeholder="*شماره تلفن" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 form-item">
+                                            <div class="form-group">
+                                            <textarea name="comments" id="comments" rows="4"
+                                                      class="form-control textarea"
+                                                      placeholder="متن پیام...."></textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-sm-12">
+                                            <div class="btn-01">
+                                                <a href="javascript:void(0)" id="submit-btn" onclick="sendEmail()">
+                                                    <span>ارسال پیام</span>
+                                                    <i class="lni lni-arrow-left"></i>
+                                                </a>
+                                            </div>
+                                            <div id="message" class="toast" role="alert" aria-live="assertive"
+                                                 aria-atomic="true" data-delay="4000">
+                                                <div class="toast-body d-inline-block"></div>
+                                                <button type="button" class="pr-3 close" data-dismiss="toast"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true" class="lni lni-close size-xs "></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--   Contact End   -->
+
+
+    </div>
+
+
+    </body>
+
+{% endblock %}
