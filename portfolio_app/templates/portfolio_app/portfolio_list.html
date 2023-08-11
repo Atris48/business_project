@@ -1,0 +1,129 @@
+{% extends 'main_base.html' %}
+{% load static %}
+{% block body %}
+
+    <body data-spy="scroll" data-target="#scrollspy" data-offset="1">
+
+    <div class="secondary-pages homepage-03">
+
+        <section id="home" class="page-header py-6 breadcrumbs">
+            <div class="home-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--  Home End  -->
+
+        <!-- Portfolio Start -->
+        <section id="portfolio" class="portfolio-wrapper portfolio-03 column-2 py-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="title-box">
+                            <h2 class="main-title">کارهای ما</h2>
+                            <p class="sub-title">برای آشنایی با ما آخرین کارهای ما را ببینید</p>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <!--   Portfolio Filters   -->
+                    <ul id="portfolio-filter" class="list-unstyled list-inline mb-0 col-lg-12 portfolio-filter">
+                        <li class=" list-inline-item">
+                            <a href="#" data-filter="*" class="pill-button active">همه</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" data-filter=".business" class="pill-button">کسب و کار</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" data-filter=".consulting" class="pill-button">مشاوره</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" data-filter=".marketing" class="pill-button">بازاریابی</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a href="#" data-filter=".coaching" class="pill-button">مربی</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="portfolio-body">
+                    <div class="portfolio-items row">
+                        <!--  Item 01  -->
+                        <div class="col-md-6 marketing">
+                            <div class="portfolio-box">
+                                <div class="portfolio-img">
+                                    <img src="{% static 'index_app/img/portfolio-01.png' %}" alt="/">
+                                </div>
+                                <div class="portfolio-overlay">
+                                    <div class="portfolio-content">
+                                        <div class="portfolio-hover-icon">
+                                            <a href="portfolio-single-03.html">
+                                                <i class="lni lni-plus"></i>
+                                            </a>
+                                        </div>
+                                        <h6 class="portfolio-title-box">
+                                            <a href="portfolio-single-03.html">رشد کسب و کار</a>
+                                        </h6>
+                                        <p class="portfolio-category">بازاریابی</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  Item 02  -->
+                        <div class="col-md-6 consulting">
+                            <div class="portfolio-box">
+                                <div class="portfolio-img">
+                                    <img src="{% static 'index_app/img/portfolio-02.png' %}" alt="/">
+                                </div>
+                                <div class="portfolio-overlay">
+                                    <div class="portfolio-content">
+                                        <div class="portfolio-hover-icon">
+                                            <a href="portfolio-single-03.html">
+                                                <i class="lni lni-plus"></i>
+                                            </a>
+                                        </div>
+                                        <h6 class="portfolio-title-box">
+                                            <a href="portfolio-single-03.html">تجزیه و تحلیل دیجیتال</a>
+                                        </h6>
+                                        <p class="portfolio-category">مشاوره</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--  Item 03  -->
+                        <div class="col-md-6 business">
+                            <div class="portfolio-box">
+                                <div class="portfolio-img">
+                                    <img src="{% static 'index_app/img/portfolio-03.png' %}" alt="/">
+                                </div>
+                                <div class="portfolio-overlay">
+                                    <div class="portfolio-content">
+                                        <div class="portfolio-hover-icon">
+                                            <a href="portfolio-single-03.html">
+                                                <i class="lni lni-plus"></i>
+                                            </a>
+                                        </div>
+                                        <h6 class="portfolio-title-box">
+                                            <a href="portfolio-single-03.html">رشد کسب و کار</a>
+                                        </h6>
+                                        <p class="portfolio-category">کسب و کار</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <!--  Portfolio End  -->
+
+    </div>
+
+
+    </body>
+{% endblock %}

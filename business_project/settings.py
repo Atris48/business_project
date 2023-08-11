@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     # apps
     'index_app',
     'about_app',
+    'portfolio_app',
 ]
 
 MIDDLEWARE = [
