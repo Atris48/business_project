@@ -78,6 +78,25 @@
                 </button>
                 <div id="toggle-menu" class="collapse navbar-collapse">
                     <ul class="navbar-nav w-100">
+                        {% if request.user.is_authenticated %}
+                            <li class="nav-item dropdown mr-auto">
+                                <a role="button" aria-haspopup="true" aria-expanded="false"
+                                   href="{% url 'dashboard' %}" class="nav-link"><h2>{{ request.user.phone }}</h2></a>
+                            </li>
+                            <li class="nav-item dropdown mr-auto">
+                                <a role="button" aria-haspopup="true" aria-expanded="false"
+                                   href="{% url 'logout' %}" class="nav-link"><h2>خروج</h2></a>
+                            </li>
+                        {% else %}
+                            <li class="nav-item dropdown mr-auto">
+                                <a role="button" aria-haspopup="true" aria-expanded="false"
+                                   href="{% url 'register' %}" class="nav-link"><h2>ثبت نام</h2></a>
+                            </li>
+                            <li class="nav-item dropdown mr-auto">
+                                <a role="button" aria-haspopup="true" aria-expanded="false"
+                                   href="{% url 'login' %}" class="nav-link"><h2>ورود</h2></a>
+                            </li>
+                        {% endif %}
                         <li class="nav-item dropdown mr-auto">
                             <a role="button" aria-haspopup="true" aria-expanded="false"
                                href="{% url 'index' %}" class="nav-link"><h2>خانه</h2></a>

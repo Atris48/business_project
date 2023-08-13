@@ -1,0 +1,7 @@
+/**
+ * Sweet Alerts
+ */
+
+'use strict';
+
+
