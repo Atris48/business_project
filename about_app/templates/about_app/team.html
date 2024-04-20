@@ -1,0 +1,89 @@
+{% extends 'main_base.html' %}
+{% load static %}
+{% block body %}
+    <body data-spy="scroll" data-target="#scrollspy" data-offset="1">
+
+    <div class="secondary-pages homepage-03">
+
+
+        <!--  Home Start  -->
+        <section id="home" class="page-header py-6 breadcrumbs">
+            <div class="home-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--  Home End  -->
+
+        {% for category in categories %}
+            <section class="team-01 pt-6 pb-50">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="title-box">
+                                <h2 class="main-title">{{ category.title }}</h2>
+                                <p class="sub-title">با تیم حرفه ای ما آشنا شوید</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="team-member">
+                        <div class="row">
+                            {% for member in category.teammember_set.all %}
+                                <div class="col-md-6 col-lg-4">
+                                    <div class="team-box">
+                                        <div class="team-img">
+                                            <img src="{{ member.image.url }}" alt="/">
+                                        </div>
+                                        <div class="team-info">
+                                            <h4 class="team-name">{{ member.name }}</h4>
+                                            <h6 class="team-job">{{ member.role }}</h6>
+                                            <div class="team-social">
+                                                <ul class="list-inline">
+                                                    <li class="list-inline-item">
+                                                        <a href="javascript:void(0);"><i
+                                                                class="lni lni-facebook-original"></i></a>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a href="javascript:void(0);"><i
+                                                                class="lni lni-instagram-original"></i></a>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a href="javascript:void(0);"><i
+                                                                class="lni lni-telegram-original"></i></a>
+                                                    </li>
+                                                    <li class="list-inline-item">
+                                                        <a href="javascript:void(0);"><i
+                                                                class="lni lni-dribbble"></i></a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endfor %}
+
+
+        <!-- Return to Top -->
+        <a href="javascript:void(0)" class="return-to-top"><i class="lni lni-chevron-up"></i></a>
+
+        <!--   Color Scheme  -->
+        <a class="color-scheme hide text-white d-inline-block" href="javascript:void(0)"><i
+                class="lni lni-night"></i></a>
+        <a class="color-scheme hide color-scheme-light text-white d-none" href="javascript:void(0)"><i
+                class="lni lni-sun"></i></a>
+
+    </div>
+
+
+    </body>
+{% endblock %}

@@ -31,6 +31,9 @@ urlpatterns = [
     path('', include('comment_app.urls')),
     path('', include('dashboard_app.urls')),
     path('', include('account_app.urls')),
+    path('', include('ticket_app.urls')),
+    path('', include('order_app.urls')),
+    path('', include('checklist_app.urls')),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

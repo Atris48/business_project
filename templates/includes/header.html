@@ -79,9 +79,33 @@
                 <div id="toggle-menu" class="collapse navbar-collapse">
                     <ul class="navbar-nav w-100">
                         {% if request.user.is_authenticated %}
+                            {% if request.user.orders.all %}
+                                {% for order in request.user.orders.all %}
+                                    {% if order.is_paid == False %}
+                                        <li class="nav-item dropdown mr-auto">
+                                            <a role="button" aria-haspopup="true" aria-expanded="false"
+                                               href="{% url 'order_detail' %}" class="nav-link"><i
+                                                    style="font-size: 20px"
+                                                    class="lni lni-cart"></i></a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                            {% if request.user.supports.all %}
+                                {% for order in request.user.supports.all %}
+                                    {% if order.is_paid == False %}
+                                        <li class="nav-item dropdown mr-auto">
+                                            <a role="button" aria-haspopup="true" aria-expanded="false"
+                                               href="{% url 'support_detail' %}" class="nav-link"><i
+                                                    style="font-size: 20px"
+                                                    class="lni lni-cart-full"></i></a>
+                                        </li>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
                             <li class="nav-item dropdown mr-auto">
                                 <a role="button" aria-haspopup="true" aria-expanded="false"
-                                   href="{% url 'dashboard' %}" class="nav-link"><h2>{{ request.user.phone }}</h2></a>
+                                   href="{% url 'dashboard' %}" class="nav-link"><h2>داشبورد</h2></a>
                             </li>
                             <li class="nav-item dropdown mr-auto">
                                 <a role="button" aria-haspopup="true" aria-expanded="false"
@@ -101,56 +125,68 @@
                             <a role="button" aria-haspopup="true" aria-expanded="false"
                                href="{% url 'index' %}" class="nav-link"><h2>خانه</h2></a>
                         </li>
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown mr-auto">
                             <a role="button" aria-haspopup="true" aria-expanded="false"
-                               href="{% url 'about_us' %}" class="nav-link"><h2>درباره ما</h2></a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a role="button" aria-haspopup="true" aria-expanded="false"
-                               href="{% url 'service_list' %}" class="nav-link "><h2>خدمات</h2></a>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a role="button" aria-haspopup="true" aria-expanded="false"
-                               href="{% url 'portfolio_list' %}" class="nav-link"><h2>نمونه کارها</h2></a>
-                            <div class="dropdown-menu">
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a role="button" aria-haspopup="true" aria-expanded="false"
-                               href="{% url 'frequently_asked_questions' %}" class="nav-link"><h2>سوالات متداول</h2></a>
+                               href="{% url 'support' %}" class="nav-link"><h2> اشتراک پشتیبانی</h2></a>
                         </li>
                         <li class="nav-item dropdown">
                             <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                href="javascript:void(0);" class="nav-link dropdown-toggle"><h2>پلن ها</h2></a>
                             <div class="dropdown-menu">
                                 <div class="menu-items">
+                                    {% for plan_category in plan_categories %}
+                                        <h3 class="title-feature">
+                                            <a href="{% url 'plan_category_detail' plan_category.id %}">
+                                                {{ plan_category.title }}
+                                            </a>
+                                        </h3>
+                                    {% endfor %}
+
+                                </div>
+                            </div>
+                        </li>
+
+                        <li class="nav-item dropdown">
+                            <a role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                               href="javascript:void(0);" class="nav-link dropdown-toggle"><h2>صفحات</h2></a>
+                            <div class="dropdown-menu">
+                                <div class="menu-items">
                                     <h3 class="title-feature">
-                                        <a href="{% url 'price_list' %}">
-                                            پلن های اشتراک
-                                        </a>
-                                    </h3>
-                                    <h3 class="title-feature">
-                                        <a href="services-boxes-03.html">
+                                        <a href="{% url 'service_list' %}">
                                             خدمات
                                         </a>
                                     </h3>
                                     <h3 class="title-feature">
-                                        <a href="team-03.html">
+                                        <a href="{% url 'about_us' %}">
+                                            درباره ما
+                                        </a>
+                                    </h3>
+                                    <h3 class="title-feature">
+                                        <a href="{% url 'team' %}">
                                             تیم ها
                                         </a>
                                     </h3>
                                     <h3 class="title-feature">
-                                        <a href="testimonial-03.html">
+                                        <a href="{% url 'comment_list' %}">
                                             نظرات
                                         </a>
                                     </h3>
+                                    <h3 class="title-feature">
+                                        <a href="{% url 'faq' %}">
+                                            سوالات متداول
+                                        </a>
+                                    </h3>
+                                    <h3 class="title-feature">
+                                        <a href="{% url 'portfolio_list' %}">
+                                            نمونه کار ها
+                                        </a>
+                                    </h3>
+                                    <h3 class="title-feature">
+                                        <a href="{% url 'contact_us' %}">
+                                            تماس با ما
+                                        </a>
+                                    </h3>
                                 </div>
-                            </div>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a role="button" aria-haspopup="true" aria-expanded="false"
-                               href="{% url 'contact_us' %}" class="nav-link"><h2>تماس با ما</h2></a>
-                            <div class="dropdown-menu">
                             </div>
                         </li>
                     </ul>

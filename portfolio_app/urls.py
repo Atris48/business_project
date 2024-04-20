@@ -2,5 +2,5 @@ from django.urls import path
 from . import views
 
 urlpatterns = [
-    path('portfolio-list', views.portfolio, name='portfolio_list')
+    path('portfolio-list', views.PortfolioView.as_view(), name='portfolio_list')
 ]

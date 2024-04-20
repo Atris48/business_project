@@ -5,51 +5,83 @@ from django.urls import reverse
 from django.utils.decorators import method_decorator
 from django.views import View
 from account_app.forms import LoginForm, RegisterForm
+from dashboard_app.models import Notification
+from order_app.models import Support
 from .check import *
+from .models import UserLoginInfo, UserLoginCount
 from .rate_limit import *
+from sms.sms import send_sms
 
 
-class UserLoginView(View):
-    def get(self, request):
-        if request.user.is_authenticated:
-            return redirect('dashboard')
-        form = LoginForm()
-        return render(request, 'account_app/login.html', {'form': form})
+def check_support_plan():
+    supoorts = Support.objects.filter(is_paid=True).all()
+    for item in supoorts:
+        now = jdatetime.datetime.now()
+        if item.expiration_date:
+            different_time = item.expiration_date - now
 
-    @method_decorator(rate_limit_login(3, 180, 'امکان وارد شدن وجود ندارد'))
-    def post(self, request):
-        if request.user.is_authenticated:
-            return redirect('dashboard')
-        form = LoginForm(request.POST)
-        if form.is_valid():
-            cd = form.cleaned_data
-            if check_user_ban(cd['phone']):
-                messages.error(request, 'حساب شما مسدود شده است')
-                return redirect('login')
-            if check_user_exist(cd['phone']):
-                user = User.objects.get(phone=cd['phone'])
-                if user.is_active == False:
-                    messages.error(request, 'اکانت خود را فعال کنید')
-                    return redirect('resend_active_code')
-            user = authenticate(username=cd['phone'], password=cd['password'])
-            if user is not None:
-                login(request, user)
-                messages.success(request, "خوش آمدید")
-                return redirect('dashboard')
+            if different_time.days > 0 and different_time.days < 4:
+                if different_time.days == 3:
+                    Notification.objects.create(user=item.user, title='تمدید اشتراک',
+                                                description=f'کاربر محترم اشتراک شما در حال اتمام است، برای تمدید کلیک کنید',
+                                                url=reverse('extend_support_order',
+                                                            kwargs={'pk': item.tracking_code}))
+                    send_sms(item.user.phone, 'extendsoppurt1', parm1=item.user.fullname)
+            elif different_time.days < 0 and different_time.days > -5:
+                if different_time.days == -2:
+                    Notification.objects.create(user=item.user, title='تمدید اشتراک',
+                                                description=f'کاربر محترم اشتراک شما منقضی شده است، برای تمدید کلیک کنید',
+                                                url=reverse('extend_support_order',
+                                                            kwargs={'pk': item.tracking_code}))
+                    send_sms(item.user.phone, 'extendsoppurt2', parm1=item.user.fullname)
+                item.is_expiration = True
+                item.save()
+            elif different_time.days == 0:
+                Notification.objects.create(user=item.user, title='تمدید اشتراک',
+                                            description=f'کاربر محترم اشتراک شما منقضی شد، برای تمدید کلیک کنید',
+                                            url=reverse('extend_support_order',
+                                                        kwargs={'pk': item.tracking_code}))
+                item.is_expiration = True
+                item.save()
             else:
-                form.add_error("password", "رمز عبور وارد شده صحیح نیست")
-                form.add_error("phone", "تلفن همراه وارد شده صحیح نیست")
-                messages.error(request, 'اطلاعات وارد شده صحیح نیست')
-                return redirect('login')
+                pass
         else:
-            messages.error(request, "اطلاعات وارد شده صحیح نیست")
-            return redirect('login')
+            pass
 
 
-class UserLogoutView(View):
+class CheckTwoStepLoginOtp(View):
     def get(self, request):
-        logout(request)
-        return redirect('index')
+        return render(request, 'account_app/two_step_login_check_otp.html')
+
+    def post(self, request):
+        code1 = request.POST.get('code1')
+        code2 = request.POST.get('code2')
+        code3 = request.POST.get('code3')
+        code4 = request.POST.get('code4')
+        code5 = request.POST.get('code5')
+        code6 = request.POST.get('code6')
+        code = int(f'{code1}{code2}{code3}{code4}{code5}{code6}')
+        token = request.POST.get('token')
+        phone = request.session.get('phone')
+        user = get_object_or_404(User, phone=phone)
+        if Otp.objects.filter(token=token, code=code, phone=phone).exists():
+            login(request, user)
+            info = request.user_agent
+            ip_address = request.META.get('HTTP_X_REAL_IP', request.META.get('REMOTE_ADDR'))
+            UserLoginInfo.objects.create(user=user, os=info.os.family, browser=info.browser.family,
+                                         date=jdatetime.datetime.now(), ip=ip_address)
+            messages.success(request, 'خوش آمدید')
+            if UserLoginCount.objects.filter(user=user).exists():
+                user_login_count = UserLoginCount.objects.get(user=user)
+                user_login_count.count += 1
+                user_login_count.save()
+            else:
+                UserLoginCount.objects.create(user=user, count=1)
+            Otp.objects.filter(token=token, code=code, phone=phone).delete()
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'کد اعتبار سنجی صحیح نمیباشد')
+            return redirect(reverse('check_two_step_otp') + f'?token={token}')
 
 
 class UserRegisterView(View):
@@ -90,6 +122,8 @@ class UserRegisterView(View):
             if Otp.objects.filter(phone=phone).exists():
                 delete_otp(Otp.objects.filter(phone=phone))
             token = create_otp(phone)
+            otp = Otp.objects.get(token=token)
+            send_sms(otp.phone, 'verifyotp', parm1=otp.code)
             request.session['phone'] = phone
             messages.success(request, 'کد تایید ارسال شده را وارد کنید')
             return redirect(reverse('check_otp') + f'?token={token}')
@@ -137,6 +171,8 @@ class ResubmitOtpCodeView(View):
                 delete_otp(Otp.objects.filter(phone=phone))
             # SMS.verification({'receptor': cd["phone"], 'type': '1', 'template': 'verifyotp', 'param1': random_code})
             token = create_otp(phone)
+            otp = Otp.objects.get(token=token)
+            send_sms(otp.phone, 'resubmitcode', parm1=otp.code)
             return redirect(reverse('check_otp') + f'?token={token}')
         else:
             messages.error(request, 'شماره خود را دوباره وارد کنید')
@@ -163,8 +199,8 @@ class ResendActiveCodeView(View):
                 if Otp.objects.filter(phone=phone).exists():
                     delete_otp(Otp.objects.filter(phone=phone))
                 token = create_otp(phone)
-                # SMS.verification({'receptor': phone, 'type': '1', 'template': 'verifyotp', 'param1': random_code})
-                # token = get_random_string(length=100, allowed_chars='Ahh22') یا پایین
+                otp = Otp.objects.get(token=token)
+                send_sms(otp.phone, 'resubmitcode', parm1=otp.code)
                 return redirect(reverse('check_otp') + f'?token={token}')
             else:
                 messages.error(request, 'اکانت شما فعال میباشد')
@@ -191,8 +227,8 @@ class ForgetPasswordView(View):
                     if Otp.objects.filter(phone=phone).exists():
                         delete_otp(Otp.objects.filter(phone=phone))
                         token = create_otp(phone)
-                        # SMS.verification(
-                        #     {'receptor': phone, 'type': '1', 'template': 'forgetpass', 'param1': random_code})
+                        otp = Otp.objects.get(token=token)
+                        send_sms(otp.phone, 'forgetpass', parm1=user.fullname, parm2=otp.code)
                         messages.success(request, 'کد تایید ارسال شده را وارد کنید')
                         return redirect(reverse('forget_password_check_otp') + f'?token={token}&phone={phone}')
                     else:
@@ -228,6 +264,7 @@ class ForgetPasswordCheckOtpView(View):
                 messages.error(request, 'کد اعتبار سنجی شما منقضی شده است')
                 return redirect('forget_password')
             request.session['phone'] = otp.phone
+            request.session['token'] = token
             otp.delete()
             messages.success(request, 'رمز جدید خود را وارد کنید')
             return redirect('change_password', otp.phone)
@@ -243,39 +280,25 @@ class ChangePassword(View):
     def post(self, request, phone):
         if not request.user.is_authenticated:
             if check_user_exist(phone):
-                user = User.objects.get(phone=phone)
-                password = request.POST.get('password')
-                confirm_password = request.POST.get('confirm_password')
-                if check_password_valid(password):
-                    messages.error(request, 'رمز عبور باید شامل حداقل 8 کاراکتر،یک حروف بزرگ و کوچک و اعداد باشد')
-                    return redirect('change_password')
-                if password != confirm_password:
-                    messages.error(request, 'رمز عبور و تکرار رمز عبور یکسان نمیباشد')
-                    return redirect('change_password')
-                user.set_password(password)
-                user.save()
-                messages.success(request, 'رمز عبور شما با موفقیت تغییر کرد')
-                return redirect('login')
+                if request.session.get('token'):
+                    user = User.objects.get(phone=phone)
+                    password = request.POST.get('password')
+                    confirm_password = request.POST.get('confirm_password')
+                    if check_password_valid(password):
+                        messages.error(request, 'رمز عبور باید شامل حداقل 8 کاراکتر،یک حروف بزرگ و کوچک و اعداد باشد')
+                        return redirect('change_password')
+                    if password != confirm_password:
+                        messages.error(request, 'رمز عبور و تکرار رمز عبور یکسان نمیباشد')
+                        return redirect('change_password')
+                    user.set_password(password)
+                    user.save()
+                    messages.success(request, 'رمز عبور شما با موفقیت تغییر کرد')
+                    return redirect('login')
+                else:
+                    messages.error(request, 'جهت تغییر رمز عبور شماره تلفن خود را وارد کنید')
+                    return redirect('forget_password')
             else:
                 messages.error(request, 'کاربر یافت نشد')
                 return redirect('change_password')
         else:
-            if request.user.phone == phone:
-                user = get_object_or_404(User, phone=phone)
-                old_password = request.POST.get('old_password')
-                if user.check_password(old_password):
-                    password = request.POST.get('password')
-                    confirm_password = request.POST.get('confirm_password')
-                    if password != confirm_password:
-                        messages.error(request, 'رمز عبور و تکرار رمز عبور یکسان نمیباشد')
-                        return redirect('change_password', phone)
-                    user.set_password(password)
-                    user.save()
-                    messages.success(request, 'رمز عبور شما تغییر کرد')
-                    return redirect('login')
-                else:
-                    messages.error(request, 'رمز عبور قبلی خود را به درستی وارد کنید')
-                    return redirect('change_password', phone)
-            else:
-                messages.error(request, 'رمز عبور و تکرار رمز عبور یکسان نمیباشد')
-                return redirect('change_password', phone)
+            return redirect('dashboard')

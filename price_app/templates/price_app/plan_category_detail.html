@@ -1,0 +1,81 @@
+{% extends 'main_base.html' %}
+{% load static %}
+{% load humanize %}
+{% block body %}
+
+    <body data-spy="scroll" data-target="#scrollspy" data-offset="1">
+
+    <div class="secondary-pages homepage-03">
+
+        <!--  Home Start  -->
+        <section id="home" class="page-header py-6 breadcrumbs">
+            <div class="home-content">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-lg-12">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!--  Home End  -->
+
+        <!--  Price 03 Start  -->
+        <section class="price-01 price-03 pt-50 pb-6">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="title-box">
+                            <h2 class="main-title">{{ category.title }}</h2>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    {% for plan in plans %}
+                        <div class="col-lg-4 boxes">
+                            <div class="price-box">
+                                <div class="price-cost"><span>تومان</span> {{ plan.price|intcomma:False }}
+                                    <div class="price-cost-border"></div>
+                                </div>
+                                <h3 class="price-title">{{ plan.name }}</h3>
+                                <div class="price-text">
+                                    {% for ability in plan.ability.all %}
+                                        <p>{{ ability }}</p>
+                                    {% endfor %}
+
+                                </div>
+                                <div class="btn-01">
+                                    {% if request.user.is_authenticated %}
+                                        <form action="{% url 'add_order' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="category" value="{{ category.title }}">
+                                            <input type="hidden" name="plan_name" value="{{ plan.name }}">
+                                            <button style="background-color: white;border: none"
+                                                    href="{% url 'add_order' %}">
+                                                <span>شروع کنید</span>
+                                                <i class="lni lni-arrow-left"></i>
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <a href="{% url 'login' %}">
+                                            <span>برای خرید پلن وارد شوید</span>
+                                            <i class="lni lni-arrow-left"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            </div>
+        </section>
+        <!--  Price 03 End  -->
+
+
+    </div>
+
+
+    </body>
+
+{% endblock %}

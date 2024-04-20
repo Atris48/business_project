@@ -1,5 +1,6 @@
 {% extends 'main_base.html' %}
 {% load static %}
+{% load widget_tweaks %}
 
 {% block body %}
 
@@ -42,7 +43,7 @@
                                     </div>
                                     <div class="item-text">
                                         <h5>دفتر کار</h5>
-                                        <p class="mb-0">ایران، فارس ، شیراز ، ملاصدرا ، کوچه 2</p>
+                                        <p class="mb-0">{{ info.address }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -54,8 +55,9 @@
                                     </div>
                                     <div class="item-text">
                                         <h5>شماره تماس</h5>
-                                        <p class="mb-0">09012345678</p>
-                                        <p class="mb-0">09012345678</p>
+                                        <p class="mb-0">{{ info.phone }}</p>
+                                        <p class="mb-0">{{ info.phone_2 }}</p>
+                                        <p class="mb-0">{{ info.phone_3 }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -67,8 +69,8 @@
                                     </div>
                                     <div class="item-text">
                                         <h5>ایمیل ما</h5>
-                                        <p class="mb-0">Support@example.com</p>
-                                        <p class="mb-0">Info@example.com</p>
+                                        <p class="mb-0">{{ info.email }}</p>
+                                        <p class="mb-0">{{ info.email_2 }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -77,52 +79,33 @@
                     <div class="col-lg-8">
                         <div class="contact-box">
                             <div class="contact-form">
-                                <form id="contactForm">
+                                <form method="post">
+                                    {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-6 form-item">
-                                            <div class="form-group">
-                                                <input name="name" id="name" type="text" class="form-control"
-                                                       placeholder="نام*" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 form-item">
-                                            <div class="form-group">
-                                                <input name="family" id="family" type="text" class="form-control"
-                                                       placeholder="نام خانوادگی*" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 form-item">
-                                            <div class="form-group">
-                                                <input name="email" id="email" type="email" class="form-control"
-                                                       placeholder="ایمیل*" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 form-item">
-                                            <div class="form-group">
-                                                <input name="subject" id="subject" type="tel" class="form-control"
-                                                       placeholder="*شماره تلفن" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 form-item">
-                                            <div class="form-group">
-                                            <textarea name="comments" id="comments" rows="4"
-                                                      class="form-control textarea"
-                                                      placeholder="متن پیام...."></textarea>
-                                            </div>
-                                        </div>
+                                        {% for item in form %}
+                                            {% if item.label == 'پیام' %}
+                                                <div class="col-lg-6 form-item">
+                                                    <div class="form-group">
+                                                        {{ item.label }}
+                                                        {{ item|add_class:"form-control textarea" }}
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6 form-item">
+                                                    <div class="form-group">
+                                                        {{ item.label }}
+                                                        {{ item|add_class:"form-control" }}
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+
                                         <div class="col-sm-12">
                                             <div class="btn-01">
-                                                <a href="javascript:void(0)" id="submit-btn" onclick="sendEmail()">
+                                                <button style="background-color: white;border: none" type="submit"
+                                                        id="submit-btn">
                                                     <span>ارسال پیام</span>
                                                     <i class="lni lni-arrow-left"></i>
-                                                </a>
-                                            </div>
-                                            <div id="message" class="toast" role="alert" aria-live="assertive"
-                                                 aria-atomic="true" data-delay="4000">
-                                                <div class="toast-body d-inline-block"></div>
-                                                <button type="button" class="pr-3 close" data-dismiss="toast"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true" class="lni lni-close size-xs "></span>
                                                 </button>
                                             </div>
                                         </div>

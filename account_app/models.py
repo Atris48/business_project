@@ -57,6 +57,8 @@ class User(AbstractBaseUser):
     created_at = jmodels.jDateTimeField(auto_now_add=True, verbose_name="زمان عضویت")
     updated_at = jmodels.jDateTimeField(auto_now=True, verbose_name="زمان بروزرسانی")
     birthday = models.CharField(max_length=20, null=True, blank=True, verbose_name='تاریخ تولد')
+    is_buy = models.BooleanField(default=False, verbose_name='خرید کرده')
+    is_two_step = models.BooleanField(default=False, verbose_name='ورود دو مرحله ای')
     is_active = models.BooleanField(default=False, verbose_name="وضعیت کاربر")
     is_admin = models.BooleanField(default=False, verbose_name="ادمین")
 
@@ -100,14 +102,6 @@ class Otp(models.Model):
     token = models.CharField(max_length=100, null=True)
     phone = models.CharField(max_length=11, verbose_name='تلفن همراه')
     code = models.SmallIntegerField(verbose_name='کد اعتبار سنجی')
-    fullname = models.CharField(max_length=80, verbose_name="نام و نام خانوادگی")
-    email = models.EmailField(
-        verbose_name="آدرس ایمیل",
-        max_length=255,
-
-    )
-    password1 = models.CharField(max_length=50, verbose_name="گذرواژه")
-    password2 = models.CharField(max_length=50, verbose_name="تکرار گذرواژه")
     expiration_date = jmodels.jDateTimeField(auto_now_add=True, verbose_name='تاریخ انقضا')
 
     class Meta:
@@ -116,3 +110,22 @@ class Otp(models.Model):
 
     def __str__(self):
         return self.phone
+
+
+class UserLoginInfo(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='last_logins')
+    os = models.CharField(max_length=50)
+    browser = models.CharField(max_length=50)
+    date = models.CharField(max_length=50)
+    ip = models.CharField(max_length=200)
+
+    def __str__(self):
+        return f'{self.os} {self.browser}'
+
+
+class UserLoginCount(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='count')
+    count = models.IntegerField(default=0)
+
+    def __str__(self):
+        return str(self.user.phone)

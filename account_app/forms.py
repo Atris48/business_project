@@ -117,3 +117,23 @@ class EditUserProfile(forms.ModelForm):
     class Meta:
         model = User
         fields = ('address', 'birthday', 'sex', 'image',)
+
+
+class EditAdminProfile(forms.ModelForm):
+    class Meta:
+        model = User
+        exclude = ('password',)
+        widgets = {
+            'is_admin': forms.CheckboxInput(),
+            'is_active': forms.CheckboxInput(),
+        }
+
+
+class AdminCreateUserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        exclude = ('password', 'last_login', 'image')
+        widgets = {
+            'is_admin': forms.CheckboxInput(),
+            'is_active': forms.CheckboxInput(),
+        }

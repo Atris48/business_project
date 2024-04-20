@@ -1,5 +1,7 @@
 {% extends 'main_base.html' %}
 {% load static %}
+{% load widget_tweaks %}
+{% load humanize %}
 
 {% block body %}
     <body data-spy="scroll" data-target="#scrollspy" data-offset="1">
@@ -271,151 +273,40 @@
                 <div class="row">
                     <!--   Portfolio Filters   -->
                     <ul id="portfolio-filter" class="list-unstyled list-inline mb-0 col-lg-12 portfolio-filter">
-                        <li class=" list-inline-item">
-                            <a href="#" data-filter="*" class="pill-button active">همه</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" data-filter=".business" class="pill-button">کسب و کار</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" data-filter=".consulting" class="pill-button">مشاوره</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" data-filter=".marketing" class="pill-button">بازاریابی</a>
-                        </li>
-                        <li class="list-inline-item">
-                            <a href="#" data-filter=".coaching" class="pill-button">مربی</a>
-                        </li>
+                        {% for category in portfolio_categories %}
+                            <li class=" list-inline-item">
+                                <a href="#" data-filter=".{{ category.title }}"
+                                   class="pill-button active">{{ category.title }}</a>
+                            </li>
+                        {% endfor %}
+
                     </ul>
                 </div>
                 <div class="portfolio-body">
                     <div class="portfolio-items row">
-                        <!--  Item 01  -->
-                        <div class="col-md-6 col-lg-4 marketing">
-                            <div class="portfolio-box">
-                                <div class="portfolio-img">
-                                    <img src="{% static 'index_app/img/portfolio-01.png' %}" alt="/">
-                                </div>
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-content">
-                                        <div class="portfolio-hover-icon">
-                                            <a href="portfolio-single-03.html">
-                                                <i class="lni lni-plus"></i>
-                                            </a>
+                        {% for portfolio in portfolios %}
+                            <div class="col-md-6 {{ portfolio.category.first }}">
+                                <div class="portfolio-box">
+                                    <div class="portfolio-img">
+                                        <img src="{{ portfolio.image.url }}" alt="/">
+                                    </div>
+                                    <div class="portfolio-overlay">
+                                        <div class="portfolio-content">
+                                            <div class="portfolio-hover-icon">
+                                                <a href="portfolio-single-03.html">
+                                                    <i class="lni lni-plus"></i>
+                                                </a>
+                                            </div>
+                                            <h6 class="portfolio-title-box">
+                                                <a href="portfolio-single-03.html">{{ portfolio.title }}</a>
+                                            </h6>
+                                            <p class="portfolio-category">{{ portfolio.category.first }}</p>
                                         </div>
-                                        <h6 class="portfolio-title-box">
-                                            <a href="portfolio-single-03.html">رشد کسب و کار</a>
-                                        </h6>
-                                        <p class="portfolio-category">بازاریابی</p>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!--  Item 02  -->
-                        <div class="col-md-6 col-lg-4 consulting">
-                            <div class="portfolio-box">
-                                <div class="portfolio-img">
-                                    <img src="{% static 'index_app/img/portfolio-02.png' %}" alt="/">
-                                </div>
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-content">
-                                        <div class="portfolio-hover-icon">
-                                            <a href="portfolio-single-03.html">
-                                                <i class="lni lni-plus"></i>
-                                            </a>
-                                        </div>
-                                        <h6 class="portfolio-title-box">
-                                            <a href="portfolio-single-03.html">تجزیه و تحلیل دیجیتال</a>
-                                        </h6>
-                                        <p class="portfolio-category">مشاوره</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--  Item 03  -->
-                        <div class="col-md-6 col-lg-4 business">
-                            <div class="portfolio-box">
-                                <div class="portfolio-img">
-                                    <img src="{% static 'index_app/img/portfolio-03.png' %}" alt="/">
-                                </div>
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-content">
-                                        <div class="portfolio-hover-icon">
-                                            <a href="portfolio-single-03.html">
-                                                <i class="lni lni-plus"></i>
-                                            </a>
-                                        </div>
-                                        <h6 class="portfolio-title-box">
-                                            <a href="portfolio-single-03.html">رشد کسب و کار</a>
-                                        </h6>
-                                        <p class="portfolio-category">کسب و کار</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--  Item 04  -->
-                        <div class="col-md-6 col-lg-4 consulting">
-                            <div class="portfolio-box">
-                                <div class="portfolio-img">
-                                    <img src="{% static 'index_app/img/portfolio-04.png' %}" alt="/">
-                                </div>
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-content">
-                                        <div class="portfolio-hover-icon">
-                                            <a href="portfolio-single-03.html">
-                                                <i class="lni lni-plus"></i>
-                                            </a>
-                                        </div>
-                                        <h6 class="portfolio-title-box">
-                                            <a href="portfolio-single-03.html">تجزیه و تحلیل دیجیتال</a>
-                                        </h6>
-                                        <p class="portfolio-category">مشاوره</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--  Item 05  -->
-                        <div class="col-md-6 col-lg-4 coaching">
-                            <div class="portfolio-box">
-                                <div class="portfolio-img">
-                                    <img src="{% static 'index_app/img/portfolio-05.png' %}" alt="/">
-                                </div>
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-content">
-                                        <div class="portfolio-hover-icon">
-                                            <a href="portfolio-single-03.html">
-                                                <i class="lni lni-plus"></i>
-                                            </a>
-                                        </div>
-                                        <h6 class="portfolio-title-box">
-                                            <a href="portfolio-single-03.html">تجزیه و تحلیل دیجیتال</a>
-                                        </h6>
-                                        <p class="portfolio-category">مربی</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--  Item 06  -->
-                        <div class="col-md-6 col-lg-4 business">
-                            <div class="portfolio-box">
-                                <div class="portfolio-img">
-                                    <img src="{% static 'index_app/img/portfolio-06.png' %}" alt="/">
-                                </div>
-                                <div class="portfolio-overlay">
-                                    <div class="portfolio-content">
-                                        <div class="portfolio-hover-icon">
-                                            <a href="portfolio-single-03.html">
-                                                <i class="lni lni-plus"></i>
-                                            </a>
-                                        </div>
-                                        <h6 class="portfolio-title-box">
-                                            <a href="portfolio-single-03.html">تجزیه و تحلیل دیجیتال</a>
-                                        </h6>
-                                        <p class="portfolio-category">کسب و کار</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
+
                     </div>
                 </div>
             </div>
@@ -439,143 +330,31 @@
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
                                     <!--  Item 01 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-01.png' %}" alt="/">
+                                    {% for comment in comments %}
+                                        <div class="swiper-slide">
+                                            <div class="testimonial-box">
+                                                <div class="testimonial-header">
+                                                    <div class="testimonial-img">
+                                                        {% if comment.user.image %}
+                                                            <img src="{{ comment.user.image.url }}"
+                                                                 alt="/">
+                                                        {% else %}
+                                                            <img src="https://www.nicepng.com/png/detail/128-1280406_view-user-icon-png-user-circle-icon-png.png"
+                                                                 alt="/">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="testimonial-detail">
+                                                        <span class="testimonial-name">{{ comment.user.fullname }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
+                                                <div class="testimonial-comment">
+                                                    <p>{{ comment.message }}</p>
                                                 </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات،
-                                                    لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می
-                                                    آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند."</p>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!--  Item 02 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-02.png' %}" alt="/">
-                                                </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات،
-                                                    لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می
-                                                    آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند."</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  Item 03 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-03.png' %}" alt="/">
-                                                </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات،
-                                                    لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می
-                                                    آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند."</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  Item 04 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-01.png' %}" alt="/">
-                                                </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات،
-                                                    لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می
-                                                    آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند."</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  Item 05 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-02.png' %}" alt="/">
-                                                </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات،
-                                                    لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می
-                                                    آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند."</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  Item 06 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-03.png' %}" alt="/">
-                                                </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات،
-                                                    لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می
-                                                    آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند."</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {% endfor %}
+
+
                                 </div>
                                 <!-- Add Arrows -->
                                 <div class="swiper-button-next swiper-button"></div>
@@ -600,69 +379,40 @@
                     </div>
                 </div>
                 <div class="row">
-                    <!--  Item 01  -->
-                    <div class="col-lg-4 boxes">
-                        <div class="price-box">
-                            <div class="price-cost"><span>تومان</span> 200000
-                                <div class="price-cost-border"></div>
-                            </div>
-                            <h3 class="price-title">پلن اولیه</h3>
-                            <div class="price-text">
-                                <p>ویژگی استاندارد</p>
-                                <p>تجزیه و تحلیل تجاری و مالی</p>
-                                <p>مدیریت تیکت</p>
-                                <p>پشتیبانی 24/7 ساعته</p>
-                            </div>
-                            <div class="btn-01">
-                                <a href="javascript:void(0)">
-                                    <span>شروع کنید</span>
-                                    <i class="lni lni-arrow-left"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  Item 02  -->
-                    <div class="col-lg-4 boxes">
-                        <div class="price-box">
-                            <div class="price-cost"><span>تومان</span> 400000
-                                <div class="price-cost-border"></div>
-                            </div>
-                            <h3 class="price-title">پلن پیشنهادی</h3>
-                            <div class="price-text">
-                                <p>ویژگی استاندارد</p>
-                                <p>تجزیه و تحلیل تجاری و مالی</p>
-                                <p>مدیریت تیکت</p>
-                                <p>پشتیبانی 24/7 ساعته</p>
-                            </div>
-                            <div class="btn-01">
-                                <a href="javascript:void(0)">
-                                    <span>شروع کنید</span>
-                                    <i class="lni lni-arrow-left"></i>
-                                </a>
+                    {% for plan in support_plans %}
+                        <div class="col-lg-4 boxes">
+                            <div class="price-box">
+                                <div class="price-cost"><span>تومان</span> {{ plan.price|intcomma:False }}
+                                    <div class="price-cost-border"></div>
+                                </div>
+                                <h3 class="price-title">{{ plan.period }}</h3>
+                                <div class="price-text">
+                                    {% for ability in plan.ability.all %}
+                                        <p>{{ ability }}</p>
+                                    {% endfor %}
+
+                                </div>
+                                <div class="btn-01">
+                                    {% if request.user.is_authenticated %}
+                                        <form action="{% url 'support' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="plan_id" value="{{ plan.id }}">
+                                            <button style="background-color: white;border: none">
+                                                <span>شروع کنید</span>
+                                                <i class="lni lni-arrow-left"></i>
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <a href="{% url 'login' %}">
+                                            <span>برای خرید پلن وارد شوید</span>
+                                            <i class="lni lni-arrow-left"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--  Item 03  -->
-                    <div class="col-lg-4 boxes">
-                        <div class="price-box">
-                            <div class="price-cost"><span>تومان</span> 700000
-                                <div class="price-cost-border"></div>
-                            </div>
-                            <h3 class="price-title">پلن پیشرفته</h3>
-                            <div class="price-text">
-                                <p>ویژگی استاندارد</p>
-                                <p>تجزیه و تحلیل تجاری و مالی</p>
-                                <p>مدیریت تیکت</p>
-                                <p>پشتیبانی 24/7 ساعته</p>
-                            </div>
-                            <div class="btn-01">
-                                <a href="javascript:void(0)">
-                                    <span>شروع کنید</span>
-                                    <i class="lni lni-arrow-left"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
+
                 </div>
             </div>
         </section>
@@ -725,52 +475,33 @@
                     <div class="col-lg-8">
                         <div class="contact-box">
                             <div class="contact-form">
-                                <form id="contactForm">
+                                <form method="post">
+                                    {% csrf_token %}
                                     <div class="row">
-                                        <div class="col-lg-6 form-item">
-                                            <div class="form-group">
-                                                <input name="name" id="name" type="text" class="form-control"
-                                                       placeholder="نام*" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 form-item">
-                                            <div class="form-group">
-                                                <input name="family" id="family" type="text" class="form-control"
-                                                       placeholder="نام خانوادگی*" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 form-item">
-                                            <div class="form-group">
-                                                <input name="email" id="email" type="email" class="form-control"
-                                                       placeholder="ایمیل*" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-6 form-item">
-                                            <div class="form-group">
-                                                <input name="subject" id="subject" type="tel" class="form-control"
-                                                       placeholder="*شماره تلفن" required>
-                                            </div>
-                                        </div>
-                                        <div class="col-12 form-item">
-                                            <div class="form-group">
-                                            <textarea name="comments" id="comments" rows="4"
-                                                      class="form-control textarea"
-                                                      placeholder="متن پیام...."></textarea>
-                                            </div>
-                                        </div>
+                                        {% for item in form %}
+                                            {% if item.label == 'پیام' %}
+                                                <div class="col-lg-6 form-item">
+                                                    <div class="form-group">
+                                                        {{ item.label }}
+                                                        {{ item|add_class:"form-control textarea" }}
+                                                    </div>
+                                                </div>
+                                            {% else %}
+                                                <div class="col-lg-6 form-item">
+                                                    <div class="form-group">
+                                                        {{ item.label }}
+                                                        {{ item|add_class:"form-control" }}
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+
                                         <div class="col-sm-12">
                                             <div class="btn-01">
-                                                <a href="javascript:void(0)" id="submit-btn" onclick="sendEmail()">
+                                                <button style="background-color: white;border: none" type="submit"
+                                                        id="submit-btn">
                                                     <span>ارسال پیام</span>
                                                     <i class="lni lni-arrow-left"></i>
-                                                </a>
-                                            </div>
-                                            <div id="message" class="toast" role="alert" aria-live="assertive"
-                                                 aria-atomic="true" data-delay="4000">
-                                                <div class="toast-body d-inline-block"></div>
-                                                <button type="button" class="pr-3 close" data-dismiss="toast"
-                                                        aria-label="Close">
-                                                    <span aria-hidden="true" class="lni lni-close size-xs "></span>
                                                 </button>
                                             </div>
                                         </div>

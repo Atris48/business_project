@@ -1,6 +1,6 @@
 {% extends 'main_base.html' %}
 {% load static %}
-
+{% load humanize %}
 {% block body %}
 
     <body data-spy="scroll" data-target="#scrollspy" data-offset="1">
@@ -26,66 +26,46 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="title-box">
-                            <h2 class="main-title">پلن های اشتراک</h2>
-                            <p class="sub-title">ما بهترین قیمت را به شما پیشنهاد می دهیم!</p>
+                            <h2 class="main-title">{{ categories.0.title }}</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <!--  Item 01  -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="price-box">
-                            <div class="price-cost"><span>تومان</span> 200000
-                                <div class="price-cost-border"></div>
-                            </div>
-                            <h3 class="price-title">پلن اولیه</h3>
-                            <div class="price-text">
-                                <p>ویژگی استاندارد</p>
-                                <p>تجزیه و تحلیل تجاری و مالی</p>
-                                <p>مدیریت تیکت</p>
-                                <p>پشتیبانی 24/7 ساعته</p>
-                            </div>
-                            <div class="price-button">
-                                <a class="pill-button-01 mt-3" href="javascript:void(0);">شروع کنید</a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  Item 02  -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="price-box">
-                            <div class="price-cost"><span>تومان</span> 400000
-                                <div class="price-cost-border"></div>
-                            </div>
-                            <h3 class="price-title">پلن پیشنهادی</h3>
-                            <div class="price-text">
-                                <p>ویژگی استاندارد</p>
-                                <p>تجزیه و تحلیل تجاری و مالی</p>
-                                <p>مدیریت تیکت</p>
-                                <p>پشتیبانی 24/7 ساعته</p>
-                            </div>
-                            <div class="price-button">
-                                <a class="pill-button-01 mt-3" href="javascript:void(0);">شروع کنید</a>
+                    {% for plan in categories.0.price_set.all %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="price-box">
+                                <div class="price-cost"><span>تومان</span> {{ plan.price|intcomma:False }}
+                                    <div class="price-cost-border"></div>
+                                </div>
+                                <h3 class="price-title">{{ plan.name }}</h3>
+                                <div class="price-text">
+                                    {% for ability in plan.ability.all %}
+                                        <p>{{ ability.title }}</p>
+                                    {% endfor %}
+
+                                </div>
+                                <div class="price-button">
+                                    {% if request.user.is_authenticated %}
+                                        <form action="{% url 'add_order' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="category" value="{{ categories.0.title }}">
+                                            <input type="hidden" name="plan_name" value="{{ plan.name }}">
+                                            <button style="border: none" class="pill-button-01 mt-3"
+                                                    href="">
+                                                ثبت سفارش
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <a href="{% url 'login' %}">
+                                            <span>برای ثبت سفارش وارد شوید</span>
+                                            <i class="lni lni-arrow-left"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--  Item 03  -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="price-box">
-                            <div class="price-cost"><span>تومان</span> 700000
-                                <div class="price-cost-border"></div>
-                            </div>
-                            <h3 class="price-title">پلن پیشرفته</h3>
-                            <div class="price-text">
-                                <p>ویژگی استاندارد</p>
-                                <p>تجزیه و تحلیل تجاری و مالی</p>
-                                <p>مدیریت تیکت</p>
-                                <p>پشتیبانی 24/7 ساعته</p>
-                            </div>
-                            <div class="price-button">
-                                <a class="pill-button-01 mt-3" href="javascript:void(0);">شروع کنید</a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
+
                 </div>
             </div>
         </section>
@@ -97,91 +77,49 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="title-box">
-                            <h2 class="main-title">پلن های اشتراک</h2>
-                            <p class="sub-title">ما بهترین قیمت را به شما پیشنهاد می دهیم!</p>
+                            <h2 class="main-title">{{ categories.1.title }}</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <!--  Item 01  -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="price-box">
-                            <div class="price-header">
-                                <h3 class="price-title">پلن اولیه</h3>
-                                <div class="price-cost">400000 <span>تومان</span></div>
-                                <div class="pricing-period">ماهانه</div>
-                            </div>
-                            <div class="price-text">
-                                <ul class="list-unstyled">
-                                    <li>ویژگی استاندارد</li>
-                                    <li>تجزیه و تحلیل تجاری و مالی</li>
-                                    <li>مدیریت تیکت</li>
-                                    <li>1 بهینه سازی رایگان</li>
-                                    <li>پشتیبانی 24/7 ساعته</li>
-                                </ul>
-                            </div>
-                            <div class="btn-01">
-                                <a href="javascript:void(0)">
-                                    <span>شروع کنید</span>
-                                    <i class="lni lni-arrow-left"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  Item 02  -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="price-box offer-box">
-                            <div class="price-highlighter">
-                                <i class="lni lni-checkmark"></i>
-                                <span>بهترین</span>
-                            </div>
-                            <div class="price-header">
-                                <h3 class="price-title">پلن اولیه</h3>
-                                <div class="price-cost">400000 <span>تومان</span></div>
-                                <div class="pricing-period">ماهانه</div>
-                            </div>
-                            <div class="price-text">
-                                <ul class="list-unstyled">
-                                    <li>ویژگی استاندارد</li>
-                                    <li>تجزیه و تحلیل تجاری و مالی</li>
-                                    <li>مدیریت تیکت</li>
-                                    <li>1 بهینه سازی رایگان</li>
-                                    <li>پشتیبانی 24/7 ساعته</li>
-                                </ul>
-                            </div>
-                            <div class="btn-01">
-                                <a href="javascript:void(0)">
-                                    <span>شروع کنید</span>
-                                    <i class="lni lni-arrow-left"></i>
-                                </a>
+                    {% for plan in categories.1.price_set.all %}
+                        <div class="col-md-6 col-lg-4">
+                            <div class="price-box">
+                                <div class="price-header">
+                                    <h3 class="price-title">{{ plan.name }}</h3>
+                                    <div class="price-cost">{{ plan.price|intcomma:False }} <span>تومان</span></div>
+                                </div>
+                                <div class="price-text">
+                                    <ul class="list-unstyled">
+                                        {% for ability in plan.ability.all %}
+                                            <li>{{ ability.title }}</li>
+                                        {% endfor %}
+
+                                    </ul>
+                                </div>
+                                <div class="btn-01">
+                                    {% if request.user.is_authenticated %}
+                                        <form action="{% url 'add_order' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="category" value="{{ categories.1.title }}">
+                                            <input type="hidden" name="plan_name" value="{{ plan.name }}">
+                                            <button style="border: none" href="">
+                                                <span>شروع کنید</span>
+                                                <i class="lni lni-arrow-left"></i>
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <a href="{% url 'login' %}">
+                                            <span>برای خرید پلن وارد شوید</span>
+                                            <i class="lni lni-arrow-left"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--  Item 03  -->
-                    <div class="col-md-6 col-lg-4">
-                        <div class="price-box">
-                            <div class="price-header">
-                                <h3 class="price-title">پلن اولیه</h3>
-                                <div class="price-cost">400000 <span>تومان</span></div>
-                                <div class="pricing-period">ماهانه</div>
-                            </div>
-                            <div class="price-text">
-                                <ul class="list-unstyled">
-                                    <li>ویژگی استاندارد</li>
-                                    <li>تجزیه و تحلیل تجاری و مالی</li>
-                                    <li>مدیریت تیکت</li>
-                                    <li>1 بهینه سازی رایگان</li>
-                                    <li>پشتیبانی 24/7 ساعته</li>
-                                </ul>
-                            </div>
-                            <div class="btn-01">
-                                <a href="javascript:void(0)">
-                                    <span>شروع کنید</span>
-                                    <i class="lni lni-arrow-left"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
+
+
                 </div>
             </div>
         </section>
@@ -193,75 +131,46 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="title-box">
-                            <h2 class="main-title">پلن های اشتراک</h2>
-                            <p class="sub-title">ما بهترین قیمت را به شما پیشنهاد می دهیم!</p>
+                            <h2 class="main-title">{{ categories.2.title }}</h2>
                         </div>
                     </div>
                 </div>
                 <div class="row">
-                    <!--  Item 01  -->
-                    <div class="col-lg-4 boxes">
-                        <div class="price-box">
-                            <div class="price-cost"><span>تومان</span> 200000
-                                <div class="price-cost-border"></div>
-                            </div>
-                            <h3 class="price-title">پلن اولیه</h3>
-                            <div class="price-text">
-                                <p>ویژگی استاندارد</p>
-                                <p>تجزیه و تحلیل تجاری و مالی</p>
-                                <p>مدیریت تیکت</p>
-                                <p>پشتیبانی 24/7 ساعته</p>
-                            </div>
-                            <div class="btn-01">
-                                <a href="javascript:void(0)">
-                                    <span>شروع کنید</span>
-                                    <i class="lni lni-arrow-left"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                    <!--  Item 02  -->
-                    <div class="col-lg-4 boxes">
-                        <div class="price-box">
-                            <div class="price-cost"><span>تومان</span> 400000
-                                <div class="price-cost-border"></div>
-                            </div>
-                            <h3 class="price-title">پلن پیشنهادی</h3>
-                            <div class="price-text">
-                                <p>ویژگی استاندارد</p>
-                                <p>تجزیه و تحلیل تجاری و مالی</p>
-                                <p>مدیریت تیکت</p>
-                                <p>پشتیبانی 24/7 ساعته</p>
-                            </div>
-                            <div class="btn-01">
-                                <a href="javascript:void(0)">
-                                    <span>شروع کنید</span>
-                                    <i class="lni lni-arrow-left"></i>
-                                </a>
+                    {% for plan in categories.2.price_set.all %}
+                        <div class="col-lg-4 boxes">
+                            <div class="price-box">
+                                <div class="price-cost"><span>تومان</span> {{ plan.price|intcomma:False }}
+                                    <div class="price-cost-border"></div>
+                                </div>
+                                <h3 class="price-title">{{ plan.name }}</h3>
+                                <div class="price-text">
+                                    {% for ability in plan.ability.all %}
+                                        <p>{{ ability }}</p>
+                                    {% endfor %}
+
+                                </div>
+                                <div class="btn-01">
+                                    {% if request.user.is_authenticated %}
+                                        <form action="{% url 'add_order' %}" method="post">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="category" value="{{ categories.2.title }}">
+                                            <input type="hidden" name="plan_name" value="{{ plan.name }}">
+                                            <button style="border: none" href="{% url 'add_order' %}">
+                                                <span>شروع کنید</span>
+                                                <i class="lni lni-arrow-left"></i>
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <a href="{% url 'login' %}">
+                                            <span>برای خرید پلن وارد شوید</span>
+                                            <i class="lni lni-arrow-left"></i>
+                                        </a>
+                                    {% endif %}
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <!--  Item 03  -->
-                    <div class="col-lg-4 boxes">
-                        <div class="price-box">
-                            <div class="price-cost"><span>تومان</span> 700000
-                                <div class="price-cost-border"></div>
-                            </div>
-                            <h3 class="price-title">پلن پیشرفته</h3>
-                            <div class="price-text">
-                                <p>ویژگی استاندارد</p>
-                                <p>تجزیه و تحلیل تجاری و مالی</p>
-                                <p>مدیریت تیکت</p>
-                                <p>پشتیبانی 24/7 ساعته</p>
-                            </div>
-                            <div class="btn-01">
-                                <a href="javascript:void(0)">
-                                    <span>شروع کنید</span>
-                                    <i class="lni lni-arrow-left"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                    {% endfor %}
+
                 </div>
             </div>
         </section>

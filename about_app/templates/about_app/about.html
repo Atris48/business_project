@@ -170,90 +170,34 @@
                 </div>
                 <div class="team-member">
                     <div class="row">
-                        <!--  Item 01 -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="team-box">
-                                <div class="team-img">
-                                    <img src="{% static 'index_app/img/team-04.jpg' %}" alt="">
-                                </div>
-                                <div class="team-info">
-                                    <h4 class="team-name">میترا جاویدی</h4>
-                                    <h6 class="team-job">توسعه دهنده وب</h6>
-                                    <div class="team-social">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-facebook-original"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-instagram-original"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-telegram-original"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-dribbble"></i></a>
-                                            </li>
-                                        </ul>
+                        {% for member in members %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="team-box">
+                                    <div class="team-img">
+                                        {% if member.image %}
+                                            <img src="{{ member.image.url }}" alt="">
+                                        {% else %}
+                                            <img src="{% static 'index_app/img/team-04.jpg' %}" alt="">
+                                        {% endif %}
+                                    </div>
+                                    <div class="team-info">
+                                        <h4 class="team-name">{{ member.name }}</h4>
+                                        <h6 class="team-job">{{ member.role }}</h6>
+                                        <div class="team-social">
+                                            <ul class="list-inline">
+                                                <li class="list-inline-item">
+                                                    {{ member.work_experience }}سال تجربه
+                                                </li>
+                                                <li class="list-inline-item">
+                                                    {{ member.created_at.date }} زمان عضویت
+                                                </li>
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <!--  Item 02 -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="team-box">
-                                <div class="team-img">
-                                    <img src="{% static 'index_app/img/team-05.jpg' %}" alt="">
-                                </div>
-                                <div class="team-info">
-                                    <h4 class="team-name">میترا جاویدی</h4>
-                                    <h6 class="team-job">توسعه دهنده وب</h6>
-                                    <div class="team-social">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-facebook-original"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-instagram-original"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-telegram-original"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-dribbble"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <!--  Item 03 -->
-                        <div class="col-md-6 col-lg-4">
-                            <div class="team-box">
-                                <div class="team-img">
-                                    <img src="{% static 'index_app/img/team-06.jpg' %}" alt="">
-                                </div>
-                                <div class="team-info">
-                                    <h4 class="team-name">میترا جاویدی</h4>
-                                    <h6 class="team-job">توسعه دهنده وب</h6>
-                                    <div class="team-social">
-                                        <ul class="list-inline">
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-facebook-original"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-instagram-original"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-telegram-original"></i></a>
-                                            </li>
-                                            <li class="list-inline-item">
-                                                <a href="javascript:void(0);"><i class="lni lni-dribbble"></i></a>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        {% endfor %}
+
                     </div>
                 </div>
             </div>

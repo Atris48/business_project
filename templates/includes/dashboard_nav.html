@@ -1,4 +1,5 @@
 {% load static %}
+{% load ticket_custom_filter %}
 <nav class="layout-navbar navbar navbar-expand-xl align-items-center bg-navbar-theme" id="layout-navbar">
     <div class="container-fluid">
         <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
@@ -32,30 +33,6 @@
                             <a class="dropdown-item" href="javascript:void(0);" data-language="fa">
                                 <i class="fi fi-ir fis rounded-circle fs-4 me-1"></i>
                                 <span class="align-middle">فارسی</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="javascript:void(0);" data-language="en">
-                                <i class="fi fi-us fis rounded-circle fs-4 me-1"></i>
-                                <span class="align-middle">انگلیسی</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="javascript:void(0);" data-language="fr">
-                                <i class="fi fi-fr fis rounded-circle fs-4 me-1"></i>
-                                <span class="align-middle">فرانسوی</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="javascript:void(0);" data-language="de">
-                                <i class="fi fi-de fis rounded-circle fs-4 me-1"></i>
-                                <span class="align-middle">آلمانی</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="dropdown-item" href="javascript:void(0);" data-language="pt">
-                                <i class="fi fi-pt fis rounded-circle fs-4 me-1"></i>
-                                <span class="align-middle">پرتغالی</span>
                             </a>
                         </li>
                     </ul>
@@ -162,8 +139,9 @@
                 <li class="nav-item dropdown-notifications navbar-dropdown dropdown me-3 me-xl-2">
                     <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);"
                        data-bs-toggle="dropdown" data-bs-auto-close="outside" aria-expanded="false">
-                        <i class="bx bx-bell bx-sm"></i>
-                        <span class="badge bg-danger rounded-pill badge-notifications">5</span>
+                        <i {% if notifications_count > 0 %}style="color: red"{% else %}style="color: #07c507"{% endif %}
+                           class="bx bx-bell bx-sm"></i>
+                        <span class="badge bg-danger rounded-pill badge-notifications">{{ notifications_count }}</span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end py-0">
                         <li class="dropdown-menu-header border-bottom">
@@ -176,216 +154,69 @@
                         </li>
                         <li class="dropdown-notifications-list scrollable-container">
                             <ul class="list-group list-group-flush">
-                                <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 me-3">
-                                            <div class="avatar">
-                                                <img src="{% static 'dashboard_app/img/avatars/1.png' %}"
-                                                     alt class="w-px-40 h-auto rounded-circle">
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1">تبریک می‌گوییم کلارک</h6>
-                                            <p class="mb-1">شما نشان فروشنده برتر ماه را برنده شدید</p>
-                                            <small class="text-muted">1 ساعت قبل</small>
-                                        </div>
-                                        <div class="flex-shrink-0 dropdown-notifications-actions">
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-read"><span
-                                                    class="badge badge-dot"></span></a>
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-archive"><span
-                                                    class="bx bx-x"></span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 me-3">
-                                            <div class="avatar">
-                                                <span class="avatar-initial rounded-circle bg-label-danger">اک</span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1">دیوید بکهام</h6>
-                                            <p class="mb-1">درخواست شما را قبول کرد.</p>
-                                            <small class="text-muted">12 ساعت قبل</small>
-                                        </div>
-                                        <div class="flex-shrink-0 dropdown-notifications-actions">
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-read"><span
-                                                    class="badge badge-dot"></span></a>
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-archive"><span
-                                                    class="bx bx-x"></span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 me-3">
-                                            <div class="avatar">
-                                                <img src="{% static 'dashboard_app/img/avatars/2.png' %}"
-                                                     alt class="w-px-40 h-auto rounded-circle">
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1">پیام جدید</h6>
-                                            <p class="mb-1">شما پیام جدید از ناتالی دارید</p>
-                                            <small class="text-muted">1 ساعت قبل</small>
-                                        </div>
-                                        <div class="flex-shrink-0 dropdown-notifications-actions">
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-read"><span
-                                                    class="badge badge-dot"></span></a>
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-archive"><span
-                                                    class="bx bx-x"></span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 me-3">
-                                            <div class="avatar">
-                                                            <span class="avatar-initial rounded-circle bg-label-success"><i
-                                                                    class="bx bx-cart"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1">هورا! شما سفارش جدید دارید</h6>
-                                            <p class="mb-1">شرکت گوگل یک سفارش جدید ثبت کرد</p>
-                                            <small class="text-muted">1 روز قبل</small>
-                                        </div>
-                                        <div class="flex-shrink-0 dropdown-notifications-actions">
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-read"><span
-                                                    class="badge badge-dot"></span></a>
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-archive"><span
-                                                    class="bx bx-x"></span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 me-3">
-                                            <div class="avatar">
-                                                <img src="{% static 'dashboard_app/img/avatars/9.png' %}"
-                                                     alt class="w-px-40 h-auto rounded-circle">
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1">برنامه مورد تایید قرار گرفت</h6>
-                                            <p class="mb-1">برنامه پروژه مدیریت شما پذیرفته شد.</p>
-                                            <small class="text-muted">2 روز قبل</small>
-                                        </div>
-                                        <div class="flex-shrink-0 dropdown-notifications-actions">
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-read"><span
-                                                    class="badge badge-dot"></span></a>
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-archive"><span
-                                                    class="bx bx-x"></span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 me-3">
-                                            <div class="avatar">
-                                                            <span class="avatar-initial rounded-circle bg-label-success"><i
-                                                                    class="bx bx-pie-chart-alt"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1">گزارش ماهانه ایجاد شد</h6>
-                                            <p class="mb-1">گزارش ماهانه ماه خرداد ایجاد شد</p>
-                                            <small class="text-muted">3 روز قبل</small>
-                                        </div>
-                                        <div class="flex-shrink-0 dropdown-notifications-actions">
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-read"><span
-                                                    class="badge badge-dot"></span></a>
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-archive"><span
-                                                    class="bx bx-x"></span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 me-3">
-                                            <div class="avatar">
-                                                <img src="{% static 'dashboard_app/img/avatars/5.png' %}"
-                                                     alt class="w-px-40 h-auto rounded-circle">
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1">ارسال درخواست ارتباط</h6>
-                                            <p class="mb-1">پیتر یک درخواست ارتباط برای شما ارسال کرد</p>
-                                            <small class="text-muted">4 روز قبل</small>
-                                        </div>
-                                        <div class="flex-shrink-0 dropdown-notifications-actions">
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-read"><span
-                                                    class="badge badge-dot"></span></a>
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-archive"><span
-                                                    class="bx bx-x"></span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item list-group-item-action dropdown-notifications-item">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 me-3">
-                                            <div class="avatar">
-                                                <img src="{% static 'dashboard_app/img/avatars/6.png' %}"
-                                                     alt class="w-px-40 h-auto rounded-circle">
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1">پیام جدید از جین</h6>
-                                            <p class="mb-1">شما پیام جدید از سمت جین دارید</p>
-                                            <small class="text-muted">5 روز قبل</small>
-                                        </div>
-                                        <div class="flex-shrink-0 dropdown-notifications-actions">
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-read"><span
-                                                    class="badge badge-dot"></span></a>
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-archive"><span
-                                                    class="bx bx-x"></span></a>
-                                        </div>
-                                    </div>
-                                </li>
-                                <li class="list-group-item list-group-item-action dropdown-notifications-item marked-as-read">
-                                    <div class="d-flex">
-                                        <div class="flex-shrink-0 me-3">
-                                            <div class="avatar">
-                                                            <span class="avatar-initial rounded-circle bg-label-warning"><i
-                                                                    class="bx bx-error"></i></span>
-                                            </div>
-                                        </div>
-                                        <div class="flex-grow-1">
-                                            <h6 class="mb-1">میزان مصرف CPU بالاست</h6>
-                                            <p class="mb-1">میران مصرف CPU در حال حاضر 88.63% است</p>
-                                            <small class="text-muted">5 روز قبل</small>
-                                        </div>
-                                        <div class="flex-shrink-0 dropdown-notifications-actions">
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-read"><span
-                                                    class="badge badge-dot"></span></a>
-                                            <a href="javascript:void(0)"
-                                               class="dropdown-notifications-archive"><span
-                                                    class="bx bx-x"></span></a>
-                                        </div>
-                                    </div>
-                                </li>
+                                {% for notification in notifications %}
+                                    {% if notification.user == request.user or notification.user == None %}
+                                        {% if request.user not in notification.remove.all %}
+                                            {% if notification.url %}
+                                                <a href="{{ notification.url }}">
+                                                    <li
+                                                            class="list-group-item list-group-item-action dropdown-notifications-item">
+                                                        <div class="d-flex">
+                                                            <div class="flex-shrink-0 me-3">
+                                                                <div class="avatar">
+                                                                    <img src="{% static 'dashboard_app/img/avatars/1.png' %}"
+                                                                         alt class="w-px-40 h-auto rounded-circle">
+                                                                </div>
+                                                            </div>
+                                                            <div class="flex-grow-1">
+                                                                <h6 class="mb-1">{{ notification.title }}</h6>
+                                                                <p class="mb-1">{{ notification.description }}</p>
+                                                                <small class="text-muted">{{ notification.created_at|get_time_ago }}</small>
+                                                            </div>
+                                                            <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                                <a href="javascript:void(0)"
+                                                                   class="dropdown-notifications-read"><span
+                                                                        class="badge badge-dot"></span></a>
+                                                                <a href="{% url 'remove_notification' notification.id %}"
+                                                                   class="dropdown-notifications-archive"><span
+                                                                        class="bx bx-x"></span></a>
+                                                            </div>
+                                                        </div>
+                                                    </li>
+                                                </a>
+                                            {% else %}
+                                                <li
+                                                        class="list-group-item list-group-item-action dropdown-notifications-item">
+                                                    <div class="d-flex">
+                                                        <div class="flex-shrink-0 me-3">
+                                                            <div class="avatar">
+                                                                <img src="{% static 'dashboard_app/img/avatars/1.png' %}"
+                                                                     alt class="w-px-40 h-auto rounded-circle">
+                                                            </div>
+                                                        </div>
+                                                        <div class="flex-grow-1">
+                                                            <h6 class="mb-1">{{ notification.title }}</h6>
+                                                            <p class="mb-1">{{ notification.description }}</p>
+                                                            <small class="text-muted">{{ notification.created_at|get_time_ago }}</small>
+                                                        </div>
+                                                        <div class="flex-shrink-0 dropdown-notifications-actions">
+                                                            <a href="javascript:void(0)"
+                                                               class="dropdown-notifications-read"><span
+                                                                    class="badge badge-dot"></span></a>
+                                                            <a href="{% url 'remove_notification' notification.id %}"
+                                                               class="dropdown-notifications-archive"><span
+                                                                    class="bx bx-x"></span></a>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {% endif %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
                             </ul>
                         </li>
                         <li class="dropdown-menu-footer border-top">
-                            <a href="javascript:void(0);"
+                            <a href="{% url 'remove_all_remove_notification' %}"
                                class="dropdown-item d-flex justify-content-center p-3">
                                 مشاهده همه اعلان‌ها
                             </a>
@@ -415,7 +246,7 @@
                                     <div class="flex-shrink-0 me-3">
                                         <div class="avatar avatar-online">
                                             {% if request.user.image %}
-                                                <img src="{{ request.user.image.url}}" alt
+                                                <img src="{{ request.user.image.url }}" alt
                                                      class="rounded-circle">
                                             {% else %}
                                                 <img src="{% static 'dashboard_app/img/avatars/1.png' %}" alt

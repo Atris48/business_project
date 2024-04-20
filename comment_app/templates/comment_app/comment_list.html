@@ -37,131 +37,31 @@
                             <div class="swiper-container">
                                 <div class="swiper-wrapper">
                                     <!--  Item 01 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-01.png' %}" alt="/">
+                                    {% for comment in comments %}
+                                        <div class="swiper-slide">
+                                            <div class="testimonial-box">
+                                                <div class="testimonial-header">
+                                                    <div class="testimonial-img">
+                                                        {% if comment.user.image %}
+                                                            <img src="{{ comment.user.image.url }}"
+                                                                 alt="/">
+                                                        {% else %}
+                                                            <img src="https://www.nicepng.com/png/detail/128-1280406_view-user-icon-png-user-circle-icon-png.png"
+                                                                 alt="/">
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="testimonial-detail">
+                                                        <span class="testimonial-name">{{ comment.user.fullname }}</span>
+                                                    </div>
                                                 </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
+                                                <div class="testimonial-comment">
+                                                    <p>{{ comment.message }}</p>
                                                 </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت،
-                                                    ویرایش و حذف نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای
-                                                    نظردهنده از Gravatar می آیند."</p>
                                             </div>
                                         </div>
-                                    </div>
-                                    <!--  Item 02 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-02.png' %}" alt="/">
-                                                </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت،
-                                                    ویرایش و حذف نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای
-                                                    نظردهنده از Gravatar می آیند."</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  Item 03 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-03.png' %}" alt="/">
-                                                </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت،
-                                                    ویرایش و حذف نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای
-                                                    نظردهنده از Gravatar می آیند."</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  Item 04 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-01.png' %}" alt="/">
-                                                </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت،
-                                                    ویرایش و حذف نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای
-                                                    نظردهنده از Gravatar می آیند."</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  Item 05 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-02.png' %}" alt="/">
-                                                </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت،
-                                                    ویرایش و حذف نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای
-                                                    نظردهنده از Gravatar می آیند."</p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!--  Item 06 -->
-                                    <div class="swiper-slide">
-                                        <div class="testimonial-box">
-                                            <div class="testimonial-header">
-                                                <div class="testimonial-img">
-                                                    <img src="{% static 'index_app/img/client-03.png' %}" alt="/">
-                                                </div>
-                                                <div class="testimonial-detail">
-                                                    <span class="testimonial-name">علی محمدی, </span>
-                                                    <span class="testimonial-job">مدیر سئو</span>
-                                                </div>
-                                            </div>
-                                            <div class="testimonial-comment">
-                                                <p>"سلام، این یک دیدگاه است. برای شروع کار با مدیریت، ویرایش و حذف
-                                                    نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای نظردهنده از
-                                                    Gravatar می آیند.سلام، این یک دیدگاه است. برای شروع کار با مدیریت،
-                                                    ویرایش و حذف نظرات، لطفاً از صفحه نظرات در داشبورد ببینید. آواتارهای
-                                                    نظردهنده از Gravatar می آیند."</p>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    {% endfor %}
+
+
                                 </div>
                                 <!-- Add Arrows -->
                                 <div class="swiper-button-next swiper-button"></div>
@@ -170,6 +70,23 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+        <section>
+            <div style="margin-bottom: 20px" align="center">
+                {% if request.user.is_authenticated %}
+                    <h4 style="color: orangered">نظر خود را با ما به اشتراک بگذارید</h4>
+                    <form method="post" action="">
+                        {% csrf_token %}
+                        <textarea style="width: 70%;height: 100px" class="form-control" name="message" id="" cols="30"
+                                  rows="10"
+                                  placeholder="متن نظر خود را وارد کنید"></textarea>
+                        <button type="submit" style="margin-top: 10px; width: 150px" class="btn btn-success">ارسال نظر
+                        </button>
+                    </form>
+                {% else %}
+                    <a class="btn btn-warning" href="{% url 'login' %}">برای ارسال نظر وارد شوید</a>
+                {% endif %}
             </div>
         </section>
         <section id="testimonial" class="testimonial-01 py-6">

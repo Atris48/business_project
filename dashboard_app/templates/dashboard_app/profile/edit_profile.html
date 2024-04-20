@@ -72,34 +72,33 @@
                         <div class="col-xxl">
                             <div class="card mb-4">
                                 <h5 class="card-header heading-color">جداکننده فرم</h5>
-                                <form method="post" class="card-body" enctype="multipart/form-data">
-                                    {% csrf_token %}
-                                    <h6 class="mb-3 fw-normal">2. اطلاعات شخصی</h6>
-                                    {% for item in form %}
-                                        {% if item.label == 'تاریخ تولد' %}
-                                            <div class="row mb-3">
-                                                <label class="col-sm-3 col-form-label" for="multicol-birthdate">تاریخ
-                                                    تولد</label>
-                                                <div class="col-sm-9">
-                                                    {% if user.birthday %}
-                                                        <input readonly class="form-control" type="text"
-                                                               value="{{ form.birthday.value|default:"N/A" }} (قابل ویرایش نمیباشد)">
-                                                    {% else %}
-                                                        <input type="text" name="birthday" id="multicol-birthdate"
-                                                               class="form-control dob-picker"
-                                                               placeholder="YYYY/MM/DD">
-                                                    {% endif %}
-                                                </div>
-                                            </div>
-                                        {% else %}
-                                            {% if item.label == 'جنسیت' %}
-                                                {% if user.sex %}
+                                {% if request.resolver_match.url_name == 'admin_create_user' %}
+                                    {% if request.user.is_staff %}
+                                        <form method="post" class="card-body" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            <h6 class="mb-3 fw-normal">2. اطلاعات شخصی</h6>
+                                            {% for item in form %}
+                                                {% if item.label == 'تاریخ تولد' %}
                                                     <div class="row mb-3">
-                                                        <label class="col-sm-3 col-form-label"
-                                                               for="multicol-full-name">جنسیت</label>
+                                                        <label class="col-sm-3 col-form-label" for="multicol-birthdate">تاریخ
+                                                            تولد</label>
                                                         <div class="col-sm-9">
-                                                            <input readonly class="form-control" type="text"
-                                                                   value="{{ form.sex.value|default:"N/A" }} (قابل ویرایش نمیباشد)">
+                                                            <input type="text" name="birthday" id="multicol-birthdate"
+                                                                   class="form-control dob-picker"
+                                                                   placeholder="YYYY/MM/DD">
+                                                        </div>
+                                                    </div>
+                                                {% elif item.label ==  'وضعیت کاربر' or item.label == 'خرید کرده' or item.label == 'ادمین' %}
+                                                    <div class="col-12">
+                                                        <div class="form-check">
+                                                            <input name="{{ item.name }}" class="form-check-input"
+                                                                   type="checkbox"
+                                                                   id="{{ item.id_for_label }}"
+                                                                   {% if item.value == True %}checked{% endif %}>
+                                                            <label class="form-check-label"
+                                                                   for="{{ item.id_for_label }}">
+                                                                {{ item.label }}
+                                                            </label>
                                                         </div>
                                                     </div>
                                                 {% else %}
@@ -112,31 +111,264 @@
                                                         </div>
                                                     </div>
                                                 {% endif %}
-                                            {% else %}
-                                                <div class="row mb-3">
-                                                    <label class="col-sm-3 col-form-label"
-                                                           for="multicol-full-name">{{ item.label }}</label>
+                                            {% endfor %}
+                                            <div class="row mb-3">
+                                                <label class="col-sm-3 col-form-label"
+                                                       for="multicol-full-name">رمز عبور</label>
+                                                <div class="col-sm-9">
+                                                    <input name="password" type="password"
+                                                           class="form-control text-start">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-3 col-form-label"
+                                                       for="multicol-full-name">تکرار رمز عبور</label>
+                                                <div class="col-sm-9">
+                                                    <input name="confirm_password" type="password"
+                                                           class="form-control text-start">
+                                                </div>
+                                            </div>
+                                            <div class="pt-4">
+                                                <div class="row justify-content-end">
                                                     <div class="col-sm-9">
-                                                        {{ item|add_class:"form-control" }}
-                                                        {{ item.errors }}
+                                                        <button type="submit" class="btn btn-primary me-sm-2 me-1">ثبت
+                                                        </button>
+                                                        <button type="reset" class="btn btn-label-secondary">انصراف
+                                                        </button>
                                                     </div>
                                                 </div>
-                                            {% endif %}
+                                            </div>
+                                        </form>
+                                    {% endif %}
+                                {% else %}
+                                    {% if request.user.is_staff %}
+                                        <div class="card mb-4">
+                                            <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+                                                <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                                    {% if user.image %}
+                                                        <img src="{{ user.image.url }}"
+                                                             style="width: 100px;height: 70px" alt="user image"
+                                                             class="d-block h-auto ms-0 ms-sm-4 rounded-3 user-profile-img">
+                                                    {% else %}
+                                                        <img src="{% static 'dashboard_app/img/avatars/1.png' %}"
+                                                             alt="user image"
+                                                             class="d-block h-auto ms-0 ms-sm-4 rounded-3 user-profile-img">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="flex-grow-1 mt-3 mt-sm-5">
+                                                    <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                                                        <div class="user-profile-info">
+                                                            <h4>{{ user.fullname }}</h4>
+                                                            <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
 
-                                        {% endif %}
-                                    {% endfor %}
-
-
-
-                                    <div class="pt-4">
-                                        <div class="row justify-content-end">
-                                            <div class="col-sm-9">
-                                                <button type="submit" class="btn btn-primary me-sm-2 me-1">ثبت</button>
-                                                <button type="reset" class="btn btn-label-secondary">انصراف</button>
+                                                                <li class="list-inline-item fw-semibold">
+                                                                    <i class="bx bx-calendar-alt"></i> عضویت
+                                                                    در {{ user.created_at.date }}
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <a href="{% url 'profile' user.phone %}"
+                                                           class="btn btn-primary text-nowrap">
+                                                            <i class="bx bx-user-check me-1"></i> پروفایل
+                                                        </a>
+                                                    </div>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                </form>
+                                        <div class="col-md-12">
+                                            <ul class="nav nav-pills flex-column flex-sm-row mb-4">
+                                                <li class="nav-item">
+                                                    <a class="nav-link"
+                                                       href="{% url 'profile' user.phone %}"><i
+                                                            class="bx bx-edit me-1"></i>
+                                                        پروفایل</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link active"
+                                                       href="{% url 'admin_edit_profile' user.phone %}"><i
+                                                            class="bx bx-edit me-1"></i>
+                                                        ویرایش پروفایل</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link"
+                                                       href="{% url 'admin_change_password' user.phone %}"><i
+                                                            class="bx bx-lock me-1"></i>امنیت</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <form method="post" class="card-body" enctype="multipart/form-data">
+                                            {% csrf_token %}
+                                            {% for item in form %}
+                                                {% if item.label == 'تاریخ تولد' %}
+                                                    <div class="row mb-3">
+                                                        <label class="col-sm-3 col-form-label" for="multicol-birthdate">تاریخ
+                                                            تولد</label>
+                                                        <div class="col-sm-9">
+                                                            <input type="text" name="birthday" id="multicol-birthdate"
+                                                                   class="form-control dob-picker"
+                                                                   placeholder="YYYY/MM/DD">
+                                                        </div>
+                                                    </div>
+                                                {% elif item.label ==  'وضعیت کاربر' or item.label == 'خرید کرده' or item.label == 'ادمین' or item.label == 'ورود دو مرحله ای' %}
+                                                    <div class="col-12">
+                                                        <div class="form-check">
+                                                            <input name="{{ item.name }}" class="form-check-input"
+                                                                   type="checkbox"
+                                                                   id="{{ item.id_for_label }}"
+                                                                   {% if item.value == True %}checked{% endif %}>
+                                                            <label class="form-check-label"
+                                                                   for="{{ item.id_for_label }}">
+                                                                {{ item.label }}
+                                                            </label>
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    <div class="row mb-3">
+                                                        <label class="col-sm-3 col-form-label"
+                                                               for="multicol-full-name">{{ item.label }}</label>
+                                                        <div class="col-sm-9">
+                                                            {{ item|add_class:"form-control" }}
+                                                            {{ item.errors }}
+                                                        </div>
+                                                    </div>
+                                                {% endif %}
+                                            {% endfor %}
+                                            <div class="pt-4">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-sm-9">
+                                                        <button type="submit" class="btn btn-primary me-sm-2 me-1">ثبت
+                                                        </button>
+                                                        <button type="reset" class="btn btn-label-secondary">انصراف
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% else %}
+                                        <div class="card mb-4">
+                                            <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
+                                                <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
+                                                    {% if user.image %}
+                                                        <img src="{{ user.image.url }}"
+                                                             style="width: 100px;height: 70px" alt="user image"
+                                                             class="d-block h-auto ms-0 ms-sm-4 rounded-3 user-profile-img">
+                                                    {% else %}
+                                                        <img src="{% static 'dashboard_app/img/avatars/1.png' %}"
+                                                             alt="user image"
+                                                             class="d-block h-auto ms-0 ms-sm-4 rounded-3 user-profile-img">
+                                                    {% endif %}
+                                                </div>
+                                                <div class="flex-grow-1 mt-3 mt-sm-5">
+                                                    <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4">
+                                                        <div class="user-profile-info">
+                                                            <h4>{{ user.fullname }}</h4>
+                                                            <ul class="list-inline mb-0 d-flex align-items-center flex-wrap justify-content-sm-start justify-content-center gap-2">
+
+                                                                <li class="list-inline-item fw-semibold">
+                                                                    <i class="bx bx-calendar-alt"></i> عضویت
+                                                                    در {{ user.created_at.date }}
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                        <a href="{% url 'profile' user.phone %}"
+                                                           class="btn btn-primary text-nowrap">
+                                                            <i class="bx bx-user-check me-1"></i> پروفایل
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12">
+                                            <ul class="nav nav-pills flex-column flex-sm-row mb-4">
+                                                <li class="nav-item">
+                                                    <a class="nav-link my-1 my-md-0"
+                                                       href="{% url 'profile' request.user.phone %}"><i
+                                                            class="bx bx-user me-1"></i> پروفایل</a>
+                                                </li>
+                                                <li class="nav-item">
+                                                    <a class="nav-link {% if request.resolver_match.url_name == 'edit_profile' %}active{% endif %}"
+                                                       href="{% url 'edit_profile' request.user.phone %}"><i
+                                                            class="bx bx-edit me-1"></i>
+                                                        ویرایش پروفایل</a>
+                                                </li>
+                                                <li
+                                                        class="nav-item ">
+                                                    <a class="nav-link"
+                                                       href="{% url 'user_security' request.user.phone %}"><i
+                                                            class="bx bx-lock me-1"></i>امنیت</a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                        <form method="post" class="card-body" enctype="multipart/form-data">
+                                            {% csrf_token %}
+
+                                            {% for item in form %}
+                                                {% if item.label == 'تاریخ تولد' %}
+                                                    <div class="row mb-3">
+                                                        <label class="col-sm-3 col-form-label" for="multicol-birthdate">تاریخ
+                                                            تولد</label>
+                                                        <div class="col-sm-9">
+                                                            {% if user.birthday %}
+                                                                <input readonly class="form-control" type="text"
+                                                                       value="{{ form.birthday.value|default:"N/A" }} (قابل ویرایش نمیباشد)">
+                                                            {% else %}
+                                                                <input type="text" name="birthday"
+                                                                       id="multicol-birthdate"
+                                                                       class="form-control dob-picker"
+                                                                       placeholder="YYYY/MM/DD">
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                {% else %}
+                                                    {% if item.label == 'جنسیت' %}
+                                                        {% if user.sex %}
+                                                            <div class="row mb-3">
+                                                                <label class="col-sm-3 col-form-label"
+                                                                       for="multicol-full-name">جنسیت</label>
+                                                                <div class="col-sm-9">
+                                                                    <input readonly class="form-control" type="text"
+                                                                           value="{{ form.sex.value|default:"N/A" }} (قابل ویرایش نمیباشد)">
+                                                                </div>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="row mb-3">
+                                                                <label class="col-sm-3 col-form-label"
+                                                                       for="multicol-full-name">{{ item.label }}</label>
+                                                                <div class="col-sm-9">
+                                                                    {{ item|add_class:"form-control" }}
+                                                                    {{ item.errors }}
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+                                                    {% else %}
+                                                        <div class="row mb-3">
+                                                            <label class="col-sm-3 col-form-label"
+                                                                   for="multicol-full-name">{{ item.label }}</label>
+                                                            <div class="col-sm-9">
+                                                                {{ item|add_class:"form-control" }}
+                                                                {{ item.errors }}
+                                                            </div>
+                                                        </div>
+                                                    {% endif %}
+
+                                                {% endif %}
+                                            {% endfor %}
+
+
+
+                                            <div class="pt-4">
+                                                <div class="row justify-content-end">
+                                                    <div class="col-sm-9">
+                                                        <button type="submit" class="btn btn-primary me-sm-2 me-1">ثبت
+                                                        </button>
+                                                        <button type="reset" class="btn btn-label-secondary">انصراف
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    {% endif %}
+                                {% endif %}
                             </div>
                         </div>
                     </div>

@@ -34,7 +34,7 @@
                   </g>
                 </svg>
               </span>
-            <span class="app-brand-text demo menu-text fw-bold ms-2">فرست</span>
+            <span class="app-brand-text demo menu-text fw-bold ms-2">{{ info.company_name }}</span>
         </a>
 
         <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
@@ -52,216 +52,239 @@
         <li class="menu-item active open">
             <a href="{% url 'dashboard' %}" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-home-circle"></i>
-                <div data-i18n="Dashboards">داشبوردها</div>
+                <div data-i18n="داشبورد">داشبورد</div>
             </a>
         </li>
 
         <!-- Apps & Pages -->
         <li class="menu-header small text-uppercase"><span class="menu-header-text">برنامه‌ها و صفحات</span>
         </li>
-        <li class="menu-item">
-            <a href="app-email.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-envelope"></i>
-                <div data-i18n="Email">ایمیل</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="app-chat.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-chat"></i>
-                <div data-i18n="Chat">گفتگو</div>
-            </a>
-        </li>
-        <li class="menu-item">
-            <a href="app-calendar.html" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-calendar"></i>
-                <div data-i18n="Calendar">تقویم</div>
-            </a>
-        </li>
+        {% if request.user.is_staff %}
+            <li class="menu-item">
+                <a href="{% url 'chat_list' %}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-chat"></i>
+                    <div data-i18n="چت آنلاین">چت آنلاین</div>
+                </a>
+            </li>
+        {% else %}
+            <li class="menu-item">
+                <a href="{% url 'chat' request.user.phone %}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-chat"></i>
+                    <div data-i18n="چت آنلاین">چت آنلاین</div>
+                    {% if is_reply %}
+                        <div style="font-size: 12px;color: green;margin-right: 10px;" data-i18n="پاسخ داده شده">پاسخ
+                            داده شده
+                        </div>
+                    {% endif %}
+                </a>
+            </li>
+        {% endif %}
+        {% if request.user.is_staff %}
+            <li class="menu-item">
+                <a href="{% url 'create_notification' %}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-calendar"></i>
+                    <div data-i18n="ایجاد نوتیفیکیشن">ایجاد نوتیفیکیشن</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{% url 'admin_create_announcement' %}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-calendar"></i>
+                    <div data-i18n="ایجاد اعلان">ایجاد اعلان</div>
+                </a>
+            </li>
+            <li class="menu-item">
+                <a href="{% url 'plan_price_list' %}" class="menu-link">
+                    <i class="menu-icon tf-icons bx bx-chat"></i>
+                    <div data-i18n="تغییر قیمت">تغییر قیمت</div>
+                </a>
+            </li>
+        {% endif %}
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
                 <div data-i18n="Invoice">صورتحساب</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="app-invoice-list.html" class="menu-link">
-                        <div data-i18n="List">لیست</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-invoice-preview.html" class="menu-link">
-                        <div data-i18n="Preview">پیش‌نمایش</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-invoice-edit.html" class="menu-link">
-                        <div data-i18n="Edit">ویرایش</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-invoice-add.html" class="menu-link">
-                        <div data-i18n="Add">افزودن</div>
-                    </a>
-                </li>
+                {% if request.user.is_staff %}
+                    <li class="menu-item">
+                        <a href="{% url 'admin_order_list' %}" class="menu-link">
+                            <div data-i18n="List">لیست صورت حساب ها</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{% url 'admin_add_order' %}" class="menu-link">
+                            <div data-i18n="ایجاد صورت حساب">ایجاد صورت حساب</div>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="menu-item">
+                        <a href="{% url 'user_order_list' %}" class="menu-link">
+                            <div data-i18n="List">لیست صورت حساب ها</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{% url 'price_list' %}" class="menu-link">
+                            <div data-i18n="ایجاد صورت حساب">ایجاد صورت حساب جدید</div>
+                        </a>
+                    </li>
+                {% endif %}
+
             </ul>
         </li>
         <li class="menu-item">
-            <a href="" class="menu-link menu-toggle">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                <div data-i18n="پشتیبانی">پشتیبانی</div>
+            </a>
+            <ul class="menu-sub">
+                {% if request.user.is_staff %}
+                    <li class="menu-item">
+                        <a href="{% url 'admin_support_order_list' %}" class="menu-link">
+                            <div data-i18n="List">لیست پشتیبانی ها</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{% url 'admin_add_support_order' %}" class="menu-link">
+                            <div data-i18n="ایجاد پشتیبانی">ایجاد پشتیبانی</div>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="menu-item">
+                        <a href="{% url 'user_support_order_list' %}" class="menu-link">
+                            <div data-i18n="List">لیست پشتیبانی های خریداری شده</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{% url 'support' %}" class="menu-link">
+                            <div data-i18n="خرید پلن پشتیبانی">خرید پلن پشتیبانی</div>
+                        </a>
+                    </li>
+                {% endif %}
+
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a href="javascript:void(0);" class="menu-link menu-toggle">
+                <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                <div data-i18n="کد تخفیف">کد تخفیف</div>
+            </a>
+            <ul class="menu-sub">
+                {% if request.user.is_staff %}
+                    <li class="menu-item">
+                        <a href="{% url 'admin_add_discount' %}" class="menu-link">
+                            <div data-i18n="ایجاد کد تخفیف">ایجاد کد تخفیف</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="{% url 'admin_discount_list' %}" class="menu-link">
+                            <div data-i18n="لیست کد تخفیف ها">لیست کد تخفیف ها</div>
+                        </a>
+                    </li>
+                {% else %}
+                    <li class="menu-item">
+                        <a href="{% url 'user_discount_list' %}" class="menu-link">
+                            <div data-i18n="List">لیست کد تخفیف ها</div>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </li>
+        <li class="menu-item">
+            <a class="menu-link menu-toggle">
                 <i class="menu-icon tf-icons bx bx-food-menu"></i>
                 <div data-i18n="پلن ها">پلن ها</div>
             </a>
             <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="app-invoice-list.html" class="menu-link">
-                        <div data-i18n="List">لیست</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-invoice-preview.html" class="menu-link">
-                        <div data-i18n="Preview">پیش‌نمایش</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-invoice-edit.html" class="menu-link">
-                        <div data-i18n="Edit">ویرایش</div>
-                    </a>
-                </li>
-                <li class="menu-item">
-                    <a href="app-invoice-add.html" class="menu-link">
-                        <div data-i18n="Add">افزودن</div>
-                    </a>
-                </li>
+                {% for category in plan_categories %}
+                    <li class="menu-item">
+                        <a href="{% url 'plan_category_detail' category.id %}" class="menu-link">
+                            <div data-i18n="{{ category.title }}">{{ category.title }}</div>
+                        </a>
+                    </li>
+                {% endfor %}
             </ul>
         </li>
+        {% if request.user.is_staff %}
+            <li class="menu-item">
+                <a href="javascript:void(0);" class="menu-link menu-toggle">
+                    <i class="menu-icon tf-icons bx bx-user"></i>
+                    <div data-i18n="Users">کاربران</div>
+                </a>
+                <ul class="menu-sub">
+                    <li class="menu-item">
+                        <a href="{% url 'all_user_list' %}" class="menu-link">
+                            <div data-i18n="List">لیست</div>
+                        </a>
+                    </li>
+                    <li class="menu-item">
+                        <a href="javascript:void(0);" class="menu-link menu-toggle">
+                            <div data-i18n="View">نمایش</div>
+                        </a>
+                        <ul class="menu-sub">
+                            <li class="menu-item">
+                                <a href="app-user-view-account.html" class="menu-link">
+                                    <div data-i18n="Account">حساب</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="app-user-view-security.html" class="menu-link">
+                                    <div data-i18n="Security">امنیت</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="app-user-view-billing.html" class="menu-link">
+                                    <div data-i18n="Billing & Plans">صورتحساب و پلن‌ها</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="app-user-view-notifications.html" class="menu-link">
+                                    <div data-i18n="Notifications">اعلان‌ها</div>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="app-user-view-connections.html" class="menu-link">
+                                    <div data-i18n="Connections">اتصالات</div>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+        {% endif %}
         <li class="menu-item">
             <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-user"></i>
-                <div data-i18n="Users">کاربران</div>
+                <i class="menu-icon tf-icons bx bx-food-menu"></i>
+                <div data-i18n="حساب کاربری">حساب کاربری</div>
             </a>
             <ul class="menu-sub">
                 <li class="menu-item">
-                    <a href="app-user-list.html" class="menu-link">
-                        <div data-i18n="List">لیست</div>
+                    <a href="{% url 'profile' request.user.phone %}" class="menu-link">
+                        <div data-i18n="پروفایل">پروفایل</div>
                     </a>
                 </li>
                 <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <div data-i18n="View">نمایش</div>
+                    <a href="{% url 'edit_profile' request.user.phone %}" class="menu-link">
+                        <div data-i18n="ویرایش پروفایل">ویرایش پروفایل</div>
                     </a>
-                    <ul class="menu-sub">
-                        <li class="menu-item">
-                            <a href="app-user-view-account.html" class="menu-link">
-                                <div data-i18n="Account">حساب</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="app-user-view-security.html" class="menu-link">
-                                <div data-i18n="Security">امنیت</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="app-user-view-billing.html" class="menu-link">
-                                <div data-i18n="Billing & Plans">صورتحساب و پلن‌ها</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="app-user-view-notifications.html" class="menu-link">
-                                <div data-i18n="Notifications">اعلان‌ها</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="app-user-view-connections.html" class="menu-link">
-                                <div data-i18n="Connections">اتصالات</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-            </ul>
-        </li>
-        <li class="menu-item">
-            <a href="javascript:void(0);" class="menu-link menu-toggle">
-                <i class="menu-icon tf-icons bx bx-dock-top"></i>
-                <div data-i18n="Pages">صفحات</div>
-            </a>
-            <ul class="menu-sub">
-                <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <div data-i18n="User Profile">پروفایل کاربر</div>
-                    </a>
-                    <ul class="menu-sub">
-                        <li class="menu-item">
-                            <a href="{% url 'profile' request.user.phone %}" class="menu-link">
-                                <div data-i18n="Profile">پروفایل</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="{% url 'edit_profile' request.user.phone %}" class="menu-link">
-                                <div data-i18n="ویرایش پروفایل">ویرایش پروفایل</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="pages-profile-projects.html" class="menu-link">
-                                <div data-i18n="Projects">پروژه‌ها</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="pages-profile-connections.html" class="menu-link">
-                                <div data-i18n="Connections">اتصالات</div>
-                            </a>
-                        </li>
-                    </ul>
                 </li>
                 <li class="menu-item">
-                    <a href="javascript:void(0);" class="menu-link menu-toggle">
-                        <div data-i18n="Account Settings">تنظیمات حساب</div>
-                    </a>
-                    <ul class="menu-sub">
-                        <li class="menu-item">
-                            <a href="pages-account-settings-account.html" class="menu-link">
-                                <div data-i18n="Account">حساب</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="pages-account-settings-security.html" class="menu-link">
-                                <div data-i18n="Security">امنیت</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="pages-account-settings-billing.html" class="menu-link">
-                                <div data-i18n="Billing & Plans">صورتحساب و پلن‌ها</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="pages-account-settings-notifications.html" class="menu-link">
-                                <div data-i18n="Notifications">اعلان‌ها</div>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="pages-account-settings-connections.html" class="menu-link">
-                                <div data-i18n="Connections">اتصالات</div>
-                            </a>
-                        </li>
-                    </ul>
-                </li>
-                <li class="menu-item">
-                    <a href="pages-faq.html" class="menu-link">
-                        <div data-i18n="FAQ">سوالات متداول</div>
+                    <a href="{% url 'user_security' request.user.phone %}" class="menu-link">
+                        <div data-i18n="امنیت">امنیت</div>
                     </a>
                 </li>
             </ul>
         </li>
-        <li class="menu-item">
-            <a href="{% url 'change_password' request.user.phone %}" class="menu-link">
-                <i class="menu-icon tf-icons bx bx-user-check"></i>
-                <div data-i18n="بازنشانی رمز عبور"></div>
-            </a>
-        </li>
-
         <li class="menu-header small text-uppercase"><span class="menu-header-text">متفرقه</span></li>
         <li class="menu-item">
-            <a href="https://www.rtl-theme.com" target="_blank" class="menu-link">
+            <a href="{% url 'contact_us' %}" target="_blank" class="menu-link">
                 <i class="menu-icon tf-icons bx bx-support"></i>
                 <div data-i18n="Support">پشتیبانی</div>
+            </a>
+        </li>
+        <li class="menu-item">
+            <a href="{% url 'index' %}" target="_blank" class="menu-link">
+                <i class="menu-icon tf-icons bx bx-home"></i>
+                <div data-i18n="صفحه اصلی">صفحه اصلی</div>
             </a>
         </li>
         <li class="menu-item">

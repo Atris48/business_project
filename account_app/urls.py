@@ -11,4 +11,5 @@ urlpatterns = [
     path('forget-password', views.ForgetPasswordView.as_view(), name='forget_password'),
     path('forget-password-check-otp', views.ForgetPasswordCheckOtpView.as_view(), name='forget_password_check_otp'),
     path('change-password/<str:phone>', views.ChangePassword.as_view(), name='change_password'),
+    path('check-two-step-login-otp', views.CheckTwoStepLoginOtp.as_view(), name='check_two_step_login_otp'),
 ]
